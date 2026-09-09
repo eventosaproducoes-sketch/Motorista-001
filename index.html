@@ -1206,4 +1206,35 @@ calcular=function(){
     dinheiro(totalCliente);
 };
 </script>
+ <!-- ETAPA 9 — CORRIDAS DISPONÍVEIS PARA O MOTORISTA -->
+<script>
+
+function mostrarCorridasMotorista(){
+
+  const lista=JSON.parse(localStorage.getItem("corridas")||"[]");
+
+  if(!lista.length){
+    alert("Nenhuma corrida disponível no momento.");
+    return;
+  }
+
+  let texto="🚗 CORRIDAS DISPONÍVEIS\n\n";
+
+  lista.forEach(function(c,i){
+
+    texto+=
+      (i+1)+". "+c.nome+
+      "\n📍 "+c.origem+
+      "\n🏁 "+c.destino+
+      "\n💰 "+dinheiro(c.total)+
+      "\n📅 "+c.data+
+      " às "+c.hora+
+      "\n📌 Status: "+c.status+
+      "\n\n";
+  });
+
+  alert(texto);
+}
+
+</script>
 </html>

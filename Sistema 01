@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transporte Particular</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    color: #222;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 15px;
+}
+
+.header {
+    background: #111827;
+    color: white;
+    padding: 22px 15px;
+    border-radius: 0 0 18px 18px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 7px 0 0;
+    opacity: .8;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+h2 {
+    font-size: 18px;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calcular {
+    background: #16a34a;
+    color: white;
+}
+
+.limpar {
+    background: #e5e7eb;
+    color: #222;
+    margin-top: 10px;
+}
+
+.resultado {
+    display: none;
+}
+
+.valor-final {
+    font-size: 34px;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.linha {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.lucro {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.info {
+    background: #eef6ff;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+@media (max-width: 400px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🚗 Transporte Particular</h1>
+    <p>Calculadora de corrida</p>
+</div>
+
+<div class="container">
+
+    <!-- CLIENTE -->
+    <div class="card">
+        <h2>👤 Dados do cliente</h2>
+
+        <label>Nome</label>
+        <input type="text" id="nome" placeholder="Nome do cliente">
+
+        <label>WhatsApp</label>
+        <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+
+        <label>Local de saída</label>
+        <input type="text" id="origem" placeholder="Endereço do cliente">
+
+        <label>Destino</label>
+        <input type="text" id="destino" placeholder="Endereço de destino">
+
+        <div class="grid">
+            <div>
+                <label>Data</label>
+                <input type="date" id="data">
+            </div>
+
+            <div>
+                <label>Horário</label>
+                <input type="time" id="horario">
+            </div>
+        </div>
+
+        <label>Número de passageiros</label>
+        <input type="number" id="passageiros" min="1" value="1">
+    </div>
+
+
+    <!-- DISTÂNCIA -->
+    <div class="card">
+        <h2>📍 Percurso</h2>
+
+        <label>Motorista → Cliente (km)</label>
+        <input type="number" id="kmBusca" min="0" step="0.1" placeholder="Ex.: 4.5">
+
+        <label>Cliente → Destino (km)</label>
+        <input type="number" id="kmViagem" min="0" step="0.1" placeholder="Ex.: 15">
+
+        <div class="info">
+            Na próxima versão, esses quilômetros serão obtidos automaticamente pelo Google Maps.
+        </div>
+    </div>
+
+
+    <!-- EXTRAS -->
+    <div class="card">
+        <h2>💳 Extras</h2>
+
+        <label>Tempo de espera (minutos)</label>
+        <input type="number" id="espera" min="0" value="0">
+
+        <label>Estacionamento (horas)</label>
+        <input type="number" id="estacionamento" min="0" step="0.5" value="0">
+
+        <label>Pedágio (R$)</label>
+        <input type="number" id="pedagio" min="0" step="0.01" value="0">
+    </div>
+
+
+    <!-- BOTÃO -->
+    <div class="card">
+        <button class="calcular" onclick="calcularCorrida()">
+            🧮 CALCULAR CORRIDA
+        </button>
+
+        <button class="limpar" onclick="limparTudo()">
+            LIMPAR
+        </button>
+    </div>
+
+
+    <!-- RESULTADO -->
+    <div class="card resultado" id="resultado">
+
+        <h2>📊 Resultado da corrida</h2>
+
+        <div class="linha">
+            <span>Km motorista → cliente</span>
+            <strong id="rKmBusca">0 km</strong>
+        </div>
+
+        <div class="linha">
+            <span>Km cliente → destino</span>
+            <strong id="rKmViagem">0 km</strong>
+        </div>
+
+        <div class="linha">
+            <span>Km total</span>
+            <strong id="rKmTotal">0 km</strong>
+        </div>
+
+        <div class="linha">
+            <span>Valor por km</span>
+            <strong>R$ 3,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Valor da distância</span>
+            <strong id="rDistancia">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Espera</span>
+            <strong id="rEspera">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Estacionamento</span>
+            <strong id="rEstacionamento">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Pedágio</span>
+            <strong id="rPedagio">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Subtotal</span>
+            <strong id="rSubtotal">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Valor mínimo</span>
+            <strong>R$ 35,00</strong>
+        </div>
+
+        <div class="valor-final" id="rTotal">
+            R$ 0,00
+        </div>
+
+        <div class="linha">
+            <span>Combustível estimado</span>
+            <strong id="rCombustivel">R$ 0,00</strong>
+        </div>
+
+        <div class="linha">
+            <span>Litros estimados</span>
+            <strong id="rLitros">0 L</strong>
+        </div>
+
+        <div class="lucro">
+            Resultado após combustível:
+            <span id="rLucro">R$ 0,00</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function dinheiro(valor) {
+    return valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+function calcularCorrida() {
+
+    // VALORES CONFIGURADOS
+    const VALOR_KM = 3.00;
+    const PRECO_COMBUSTIVEL = 6.95;
+    const CONSUMO = 10;
+    const VALOR_ESPERA_MIN = 2.00;
+    const VALOR_ESTACIONAMENTO_HORA = 15.00;
+    const VALOR_MINIMO = 35.00;
+
+    // DADOS
+    const kmBusca = Number(document.getElementById("kmBusca").value) || 0;
+    const kmViagem = Number(document.getElementById("kmViagem").value) || 0;
+
+    const espera = Number(document.getElementById("espera").value) || 0;
+    const estacionamento = Number(document.getElementById("estacionamento").value) || 0;
+    const pedagio = Number(document.getElementById("pedagio").value) || 0;
+
+    // CÁLCULOS
+    const kmTotal = kmBusca + kmViagem;
+
+    const valorDistancia = kmTotal * VALOR_KM;
+
+    const valorEspera = espera * VALOR_ESPERA_MIN;
+
+    const valorEstacionamento =
+        estacionamento * VALOR_ESTACIONAMENTO_HORA;
+
+    const subtotal =
+        valorDistancia +
+        valorEspera +
+        valorEstacionamento +
+        pedagio;
+
+    // A corrida nunca fica abaixo de R$ 35
+    const total = Math.max(subtotal, VALOR_MINIMO);
+
+    // COMBUSTÍVEL
+    const litros = kmTotal / CONSUMO;
+
+    const custoCombustivel =
+        litros * PRECO_COMBUSTIVEL;
+
+    const resultadoCombustivel =
+        total - custoCombustivel;
+
+
+    // MOSTRAR RESULTADOS
+    document.getElementById("rKmBusca").textContent =
+        kmBusca.toFixed(1) + " km";
+
+    document.getElementById("rKmViagem").textContent =
+        kmViagem.toFixed(1) + " km";
+
+    document.getElementById("rKmTotal").textContent =
+        kmTotal.toFixed(1) + " km";
+
+    document.getElementById("rDistancia").textContent =
+        dinheiro(valorDistancia);
+
+    document.getElementById("rEspera").textContent =
+        dinheiro(valorEspera);
+
+    document.getElementById("rEstacionamento").textContent =
+        dinheiro(valorEstacionamento);
+
+    document.getElementById("rPedagio").textContent =
+        dinheiro(pedagio);
+
+    document.getElementById("rSubtotal").textContent =
+        dinheiro(subtotal);
+
+    document.getElementById("rTotal").textContent =
+        dinheiro(total);
+
+    document.getElementById("rLitros").textContent =
+        litros.toFixed(2) + " L";
+
+    document.getElementById("rCombustivel").textContent =
+        dinheiro(custoCombustivel);
+
+    document.getElementById("rLucro").textContent =
+        dinheiro(resultadoCombustivel);
+
+    document.getElementById("resultado").style.display =
+        "block";
+}
+
+
+function limparTudo() {
+
+    document.querySelectorAll("input").forEach(function(input) {
+
+        if (input.type === "number") {
+            input.value = input.id === "passageiros" ? 1 : 0;
+        } else {
+            input.value = "";
+        }
+
+    });
+
+    document.getElementById("resultado").style.display =
+        "none";
+}
+
+</script>
+
+</body>
+</html>

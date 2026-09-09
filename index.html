@@ -746,4 +746,122 @@ function entrarMotorista(){
   window.scrollTo(0,0);
 }
 </script>
+ <!-- ETAPA 2 — CADASTRO / LOGIN DO PASSAGEIRO -->
+
+<div id="acessoPassageiro" style="display:none;position:fixed;inset:0;background:#f3f4f6;z-index:10000;overflow:auto">
+  <div class="header">
+    <div style="font-size:40px">👤</div>
+    <h1>Área do Passageiro</h1>
+    <p>Entre ou crie sua conta</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>🔐 Acesso</h2>
+
+      <label>Nome</label>
+      <input id="cadNome" placeholder="Seu nome completo">
+
+      <label>WhatsApp</label>
+      <input id="cadWhats" type="tel" placeholder="(11) 99999-9999">
+
+      <label>Senha</label>
+      <input id="cadSenha" type="password" placeholder="Crie uma senha">
+
+      <label style="font-weight:normal;font-size:13px">
+        <input id="aceiteTermos" type="checkbox" style="width:auto">
+        Aceito os Termos de Uso e a Política de Privacidade.
+      </label>
+
+      <button class="green" onclick="criarContaPassageiro()">
+        CRIAR MINHA CONTA
+      </button>
+
+      <button class="blue" onclick="loginPassageiro()">
+        JÁ TENHO CONTA
+      </button>
+
+      <button class="gray" onclick="voltarInicio()">
+        VOLTAR
+      </button>
+
+      <div id="msgAcesso" class="info" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function entrarPassageiro(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("cliente").style.display="none";
+  document.getElementById("motorista").style.display="none";
+  document.getElementById("acessoPassageiro").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function criarContaPassageiro(){
+  const nome=document.getElementById("cadNome").value.trim();
+  const whats=document.getElementById("cadWhats").value.trim();
+  const senha=document.getElementById("cadSenha").value;
+  const aceite=document.getElementById("aceiteTermos").checked;
+
+  if(!nome||!whats||!senha){
+    return mensagemAcesso("Preencha nome, WhatsApp e senha.");
+  }
+
+  if(!aceite){
+    return mensagemAcesso("É necessário aceitar os Termos de Uso e a Política de Privacidade.");
+  }
+
+  localStorage.setItem("passageiro",JSON.stringify({
+    nome:nome,
+    whats:whats,
+    senha:senha,
+    aceite:true,
+    dataAceite:new Date().toISOString()
+  }));
+
+  document.getElementById("nome").value=nome;
+  document.getElementById("telefone").value=whats;
+
+  mensagemAcesso("Conta criada com sucesso!");
+  setTimeout(abrirAreaPassageiro,700);
+}
+
+function loginPassageiro(){
+  const conta=JSON.parse(localStorage.getItem("passageiro")||"null");
+  const whats=document.getElementById("cadWhats").value.trim();
+  const senha=document.getElementById("cadSenha").value;
+
+  if(!conta){
+    return mensagemAcesso("Nenhuma conta encontrada. Crie sua conta primeiro.");
+  }
+
+  if(conta.whats!==whats||conta.senha!==senha){
+    return mensagemAcesso("WhatsApp ou senha incorretos.");
+  }
+
+  document.getElementById("nome").value=conta.nome;
+  document.getElementById("telefone").value=conta.whats;
+  abrirAreaPassageiro();
+}
+
+function abrirAreaPassageiro(){
+  document.getElementById("acessoPassageiro").style.display="none";
+  document.getElementById("cliente").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function voltarInicio(){
+  document.getElementById("acessoPassageiro").style.display="none";
+  document.getElementById("inicio").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function mensagemAcesso(txt){
+  const m=document.getElementById("msgAcesso");
+  m.textContent=txt;
+  m.style.display="block";
+}
+</script>
 </html>

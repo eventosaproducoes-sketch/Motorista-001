@@ -705,4 +705,45 @@ function nova(){
 </script>
 
 </body>
+ <!-- ETAPA 1 — TELA INICIAL -->
+<div id="inicio" style="position:fixed;inset:0;background:#f3f4f6;z-index:9999;overflow:auto">
+  <div class="header">
+    <div style="font-size:40px">🚗</div>
+    <h1>Transporte Particular</h1>
+    <p>Encontre seu transporte de forma simples e rápida.</p>
+  </div>
+
+  <div class="container">
+    <div class="card" style="text-align:center;margin-top:20px">
+      <h2>Como você deseja acessar?</h2>
+
+      <button class="blue" onclick="entrarPassageiro()">
+        👤 SOU PASSAGEIRO
+      </button>
+
+      <button class="dark" onclick="entrarMotorista()">
+        🚗 SOU MOTORISTA
+      </button>
+    </div>
+
+    <div class="footer">
+      Transporte Particular<br>
+      Conectando passageiros e motoristas.
+    </div>
+  </div>
+</div>
+
+<script>
+function entrarPassageiro(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("cliente").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function entrarMotorista(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("motorista").style.display="block";
+  window.scrollTo(0,0);
+}
+</script>
 </html>

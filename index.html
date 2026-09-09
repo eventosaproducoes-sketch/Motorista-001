@@ -1350,4 +1350,21 @@ window.addEventListener("load",function(){
 });
 
 </script>
+ <script>
+function verCorridas(){
+let l=JSON.parse(localStorage.getItem("corridas")||"[]");
+let d=l.filter(c=>c.status=="Aguardando motorista"),a=document.getElementById("painelCorridasSimples");
+if(!a){a=document.createElement("div");a.id="painelCorridasSimples";a.className="card";document.getElementById("motorista").appendChild(a)}
+a.innerHTML="<h2>🚗 Corridas disponíveis</h2>";
+if(!d.length){a.innerHTML+="<div class='info'>🟢 Nenhuma corrida disponível.</div>";return}
+a.innerHTML+="<div class='info'>🟢 "+d.length+" corrida(s) disponível(is)</div>";
+d.forEach(c=>{
+let x=document.createElement("div");x.style.cssText="border:1px solid #ddd;border-radius:12px;padding:12px;margin-top:10px";
+x.innerHTML="<b>👤 "+c.nome+"</b><div class='line'><span>📅 Horário</span><b>"+c.data+" "+c.hora+"</b></div><div class='line'><span>📍 Embarque</span><b>"+c.origem+"</b></div><div class='line'><span>🏁 Destino</span><b>"+c.destino+"</b></div><div class='line'><span>💰 Valor</span><b>"+dinheiro(c.total)+"</b></div>";
+let b=document.createElement("button");b.className="green";b.textContent="✅ ACEITAR CORRIDA";b.onclick=()=>{let z=JSON.parse(localStorage.getItem("corridas")||"[]"),q=z.find(v=>v.id==c.id);if(q){q.status="Aceita pelo motorista";localStorage.setItem("corridas",JSON.stringify(z));verCorridas()}};
+x.appendChild(b);a.appendChild(x)
+})
+}
+window.addEventListener("load",()=>{let b=document.getElementById("btnVerCorridas");if(b){b.textContent="🚗 VER CORRIDAS";b.onclick=verCorridas}})
+ </script>
 </html>

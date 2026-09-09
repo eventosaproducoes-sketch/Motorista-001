@@ -1123,4 +1123,47 @@ function mostrarAdmin(){
 }
 window.addEventListener("load",mostrarAdmin);
 </script>
+<!-- ETAPA 7 — REGISTRO DA CORRIDA -->
+<script>
+function registrarCorrida(){
+  if(!corrida){
+    alert("Primeiro calcule o valor da viagem.");
+    return;
+  }
+
+  const lista=JSON.parse(localStorage.getItem("corridas")||"[]");
+
+  const novaCorrida={
+    id:Date.now(),
+    nome:corrida.nome,
+    telefone:corrida.telefone,
+    origem:corrida.origem,
+    destino:corrida.destino,
+    passageiros:corrida.passageiros,
+    km:corrida.km,
+    total:corrida.total,
+    data:document.getElementById("data").value,
+    hora:document.getElementById("hora").value,
+    status:"Aguardando motorista"
+  };
+
+  lista.push(novaCorrida);
+  localStorage.setItem("corridas",JSON.stringify(lista));
+
+  alert("✅ Solicitação registrada!\n\nAgora sua corrida está aguardando um motorista.");
+}
+
+window.addEventListener("load",function(){
+  const r=document.getElementById("resultadoCliente");
+
+  if(r && !document.getElementById("btnSolicitarCorrida")){
+    const b=document.createElement("button");
+    b.id="btnSolicitarCorrida";
+    b.className="green";
+    b.textContent="🚗 SOLICITAR CORRIDA";
+    b.onclick=registrarCorrida;
+    r.appendChild(b);
+  }
+});
+</script>
 </html>

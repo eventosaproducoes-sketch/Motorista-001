@@ -1367,4 +1367,74 @@ x.appendChild(b);a.appendChild(x)
 }
 window.addEventListener("load",()=>{let b=document.getElementById("btnVerCorridas");if(b){b.textContent="🚗 VER CORRIDAS";b.onclick=verCorridas}})
  </script>
+ <!-- ETAPA 9 — PARTE 4: ALERTA DE NOVA CORRIDA -->
+<script>
+function verificarNovaCorrida(){
+
+  const lista=JSON.parse(localStorage.getItem("corridas")||"[]");
+
+  const novas=lista.filter(function(c){
+    return c.status==="Aguardando motorista";
+  });
+
+  const painel=document.getElementById("motorista");
+
+  if(!painel)return;
+
+  let alerta=document.getElementById("alertaNovaCorrida");
+
+  if(novas.length>0){
+
+    if(!alerta){
+
+      alerta=document.createElement("div");
+      alerta.id="alertaNovaCorrida";
+
+      alerta.style.cssText=
+        "background:#fff7ed;border:2px solid #f97316;"+
+        "border-radius:14px;padding:15px;margin:15px 0;"+
+        "text-align:center;font-weight:bold;";
+
+      painel.insertBefore(alerta,painel.firstChild);
+    }
+
+    alerta.innerHTML=
+      "🔔 NOVA SOLICITAÇÃO DE CORRIDA!"+
+      "<br><small style='display:block;margin:8px 0;font-weight:normal'>"+
+      novas.length+
+      " corrida(s) aguardando motorista.</small>";
+
+    let botao=alerta.querySelector("button");
+
+    if(!botao){
+
+      botao=document.createElement("button");
+      botao.className="green";
+      botao.textContent="🚗 VER CORRIDA";
+
+      botao.onclick=function(){
+        const b=document.getElementById("btnVerCorridas");
+        if(b)b.click();
+      };
+
+      alerta.appendChild(botao);
+    }
+
+  }else{
+
+    if(alerta){
+      alerta.remove();
+    }
+
+  }
+}
+
+window.addEventListener("load",function(){
+
+  verificarNovaCorrida();
+
+  setInterval(verificarNovaCorrida,5000);
+
+});
+</script>
 </html>

@@ -3,340 +3,1281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Transporte Particular</title>
 
 <style>
+
+/* =========================
+   CONFIGURAÇÃO GERAL
+========================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f2f4f7;
-    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #17202a;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
 }
 
 .container {
-    max-width: 600px;
+    width: 100%;
+    max-width: 620px;
     margin: auto;
     padding: 15px;
 }
 
+
+/* =========================
+   CABEÇALHO
+========================= */
+
 .header {
     background: #111827;
     color: white;
-    padding: 22px 15px;
-    border-radius: 0 0 18px 18px;
+    padding: 28px 18px;
     text-align: center;
-    margin-bottom: 15px;
+    border-radius: 0 0 22px 22px;
+}
+
+.header .icone {
+    font-size: 42px;
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 25px;
+    margin: 8px 0 5px;
+    font-size: 26px;
 }
 
 .header p {
-    margin: 7px 0 0;
-    opacity: .8;
+    margin: 0;
+    font-size: 15px;
+    opacity: .85;
 }
+
+
+/* =========================
+   CARTÕES
+========================= */
 
 .card {
     background: white;
-    padding: 18px;
-    margin-bottom: 15px;
-    border-radius: 15px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.07);
 }
 
-h2 {
-    font-size: 18px;
-    margin-top: 0;
+.card h2 {
+    margin: 0 0 15px;
+    font-size: 19px;
 }
+
+
+/* =========================
+   FORMULÁRIOS
+========================= */
 
 label {
     display: block;
     font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin: 13px 0 6px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 9px;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
     font-size: 16px;
+    background: white;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #2563eb;
 }
 
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
 }
+
+
+/* =========================
+   BOTÕES
+========================= */
 
 button {
     width: 100%;
-    border: 0;
-    border-radius: 10px;
+    border: none;
     padding: 15px;
-    font-size: 17px;
+    border-radius: 11px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 10px;
 }
 
-.calcular {
+.btn-principal {
     background: #16a34a;
     color: white;
 }
 
-.limpar {
-    background: #e5e7eb;
-    color: #222;
-    margin-top: 10px;
+.btn-principal:hover {
+    background: #15803d;
 }
 
-.resultado {
+.btn-secundario {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.btn-limpar {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+
+/* =========================
+   AVISO
+========================= */
+
+.aviso {
+    background: #eef5ff;
+    border-left: 4px solid #2563eb;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+
+/* =========================
+   RESULTADO DO CLIENTE
+========================= */
+
+.resultado-cliente {
     display: none;
 }
 
-.valor-final {
-    font-size: 34px;
-    font-weight: bold;
+.preco {
     text-align: center;
-    margin: 15px 0;
+    background: #f0fdf4;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 15px;
 }
+
+.preco small {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.preco strong {
+    display: block;
+    font-size: 38px;
+    color: #15803d;
+}
+
+
+/* =========================
+   LINHAS DE INFORMAÇÃO
+========================= */
 
 .linha {
     display: flex;
     justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid #eee;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid #edf0f2;
 }
 
-.lucro {
-    font-size: 20px;
-    font-weight: bold;
+.linha:last-child {
+    border-bottom: none;
+}
+
+.linha span:first-child {
+    color: #667085;
+}
+
+.linha strong {
+    text-align: right;
+}
+
+
+/* =========================
+   PAINEL MOTORISTA
+========================= */
+
+.painel-motorista {
+    display: none;
+}
+
+.motorista-header {
+    background: #111827;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.motorista-header strong {
+    display: block;
+    font-size: 19px;
+}
+
+.motorista-header span {
+    font-size: 13px;
+    opacity: .8;
+}
+
+.resultado-motorista {
+    display: none;
+}
+
+.lucro-box {
     margin-top: 15px;
+    padding: 18px;
+    background: #f0fdf4;
+    border-radius: 14px;
+    text-align: center;
 }
 
-.info {
-    background: #eef6ff;
-    padding: 12px;
-    border-radius: 10px;
+.lucro-box span {
+    display: block;
     font-size: 14px;
-    margin-top: 10px;
 }
 
-@media (max-width: 400px) {
+.lucro-box strong {
+    display: block;
+    font-size: 28px;
+    color: #15803d;
+}
+
+
+/* =========================
+   CONFIGURAÇÕES
+========================= */
+
+.configuracao {
+    background: #fff7ed;
+    border-left: 4px solid #f97316;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   RODAPÉ
+========================= */
+
+.footer {
+    text-align: center;
+    color: #667085;
+    font-size: 12px;
+    padding: 20px 5px;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 480px) {
+
     .grid {
         grid-template-columns: 1fr;
     }
+
+    .header h1 {
+        font-size: 23px;
+    }
+
+    .card {
+        padding: 17px;
+    }
+
+    .preco strong {
+        font-size: 34px;
+    }
 }
+
 </style>
 </head>
 
+
 <body>
 
+
+<!-- =========================
+     CABEÇALHO
+========================= -->
+
 <div class="header">
-    <h1>🚗 Transporte Particular</h1>
-    <p>Calculadora de corrida</p>
+
+    <div class="icone">🚗</div>
+
+    <h1>Transporte Particular</h1>
+
+    <p>
+        Solicite sua viagem de forma simples, rápida e segura.
+    </p>
+
 </div>
+
 
 <div class="container">
 
-    <!-- CLIENTE -->
+
+<!-- =====================================================
+     ÁREA DO CLIENTE
+===================================================== -->
+
+<div id="areaCliente">
+
+
+    <!-- DADOS DO CLIENTE -->
+
     <div class="card">
-        <h2>👤 Dados do cliente</h2>
 
-        <label>Nome</label>
-        <input type="text" id="nome" placeholder="Nome do cliente">
+        <h2>👤 Dados do passageiro</h2>
 
-        <label>WhatsApp</label>
-        <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+        <label for="nome">
+            Nome
+        </label>
 
-        <label>Local de saída</label>
-        <input type="text" id="origem" placeholder="Endereço do cliente">
+        <input
+            type="text"
+            id="nome"
+            placeholder="Digite seu nome"
+        >
 
-        <label>Destino</label>
-        <input type="text" id="destino" placeholder="Endereço de destino">
+
+        <label for="telefone">
+            WhatsApp
+        </label>
+
+        <input
+            type="tel"
+            id="telefone"
+            placeholder="(00) 00000-0000"
+        >
+
+    </div>
+
+
+    <!-- VIAGEM -->
+
+    <div class="card">
+
+        <h2>📍 Sua viagem</h2>
+
+
+        <label for="origem">
+            Local de embarque
+        </label>
+
+        <input
+            type="text"
+            id="origem"
+            placeholder="Onde o motorista deve buscar você?"
+        >
+
+
+        <label for="destino">
+            Destino
+        </label>
+
+        <input
+            type="text"
+            id="destino"
+            placeholder="Para onde você vai?"
+        >
+
 
         <div class="grid">
-            <div>
-                <label>Data</label>
-                <input type="date" id="data">
-            </div>
 
             <div>
-                <label>Horário</label>
-                <input type="time" id="horario">
+
+                <label for="data">
+                    Data
+                </label>
+
+                <input
+                    type="date"
+                    id="data"
+                >
+
             </div>
+
+
+            <div>
+
+                <label for="horario">
+                    Horário
+                </label>
+
+                <input
+                    type="time"
+                    id="horario"
+                >
+
+            </div>
+
         </div>
 
-        <label>Número de passageiros</label>
-        <input type="number" id="passageiros" min="1" value="1">
+
+        <label for="passageiros">
+            Número de passageiros
+        </label>
+
+        <select id="passageiros">
+
+            <option value="1">
+                1 passageiro
+            </option>
+
+            <option value="2">
+                2 passageiros
+            </option>
+
+            <option value="3">
+                3 passageiros
+            </option>
+
+            <option value="4">
+                4 passageiros
+            </option>
+
+            <option value="5">
+                5 passageiros
+            </option>
+
+            <option value="6">
+                6 passageiros
+            </option>
+
+        </select>
+
     </div>
 
 
-    <!-- DISTÂNCIA -->
+    <!-- NECESSIDADES -->
+
     <div class="card">
-        <h2>📍 Percurso</h2>
 
-        <label>Motorista → Cliente (km)</label>
-        <input type="number" id="kmBusca" min="0" step="0.1" placeholder="Ex.: 4.5">
+        <h2>🧳 Necessidades da viagem</h2>
 
-        <label>Cliente → Destino (km)</label>
-        <input type="number" id="kmViagem" min="0" step="0.1" placeholder="Ex.: 15">
 
-        <div class="info">
-            Na próxima versão, esses quilômetros serão obtidos automaticamente pelo Google Maps.
+        <label for="bagagem">
+            Bagagem
+        </label>
+
+        <select id="bagagem">
+
+            <option value="nao">
+                Não
+            </option>
+
+            <option value="sim">
+                Sim
+            </option>
+
+        </select>
+
+
+        <label for="estacionamentoCliente">
+            Precisa de estacionamento?
+        </label>
+
+        <select id="estacionamentoCliente">
+
+            <option value="nao">
+                Não
+            </option>
+
+            <option value="sim">
+                Sim
+            </option>
+
+        </select>
+
+
+        <label for="esperaCliente">
+            Precisa aguardar?
+        </label>
+
+        <select id="esperaCliente">
+
+            <option value="nao">
+                Não
+            </option>
+
+            <option value="sim">
+                Sim
+            </option>
+
+        </select>
+
+
+        <div class="aviso">
+
+            💡 O sistema calculará automaticamente
+            os valores adicionais conforme as necessidades
+            informadas.
+
         </div>
+
     </div>
 
 
-    <!-- EXTRAS -->
+    <!-- CÁLCULO DEMONSTRAÇÃO -->
+
     <div class="card">
-        <h2>💳 Extras</h2>
 
-        <label>Tempo de espera (minutos)</label>
-        <input type="number" id="espera" min="0" value="0">
+        <h2>🧮 Simulação da viagem</h2>
 
-        <label>Estacionamento (horas)</label>
-        <input type="number" id="estacionamento" min="0" step="0.5" value="0">
+        <p style="font-size:14px;color:#667085;line-height:1.5;">
 
-        <label>Pedágio (R$)</label>
-        <input type="number" id="pedagio" min="0" step="0.01" value="0">
-    </div>
+            Nesta versão de demonstração, o motorista informa
+            a distância calculada pela rota.
+            Na próxima etapa, o Google Maps será integrado
+            para calcular automaticamente distância e tempo.
+
+        </p>
 
 
-    <!-- BOTÃO -->
-    <div class="card">
-        <button class="calcular" onclick="calcularCorrida()">
-            🧮 CALCULAR CORRIDA
+        <label for="kmBusca">
+            Motorista → cliente (km)
+        </label>
+
+        <input
+            type="number"
+            id="kmBusca"
+            min="0"
+            step="0.1"
+            placeholder="Ex.: 4"
+        >
+
+
+        <label for="kmViagem">
+            Cliente → destino (km)
+        </label>
+
+        <input
+            type="number"
+            id="kmViagem"
+            min="0"
+            step="0.1"
+            placeholder="Ex.: 15"
+        >
+
+
+        <label for="pedagio">
+            Pedágio (R$)
+        </label>
+
+        <input
+            type="number"
+            id="pedagio"
+            min="0"
+            step="0.01"
+            value="0"
+        >
+
+
+        <label for="espera">
+            Espera (minutos)
+        </label>
+
+        <input
+            type="number"
+            id="espera"
+            min="0"
+            value="0"
+        >
+
+
+        <label for="estacionamento">
+            Estacionamento (horas)
+        </label>
+
+        <input
+            type="number"
+            id="estacionamento"
+            min="0"
+            step="0.5"
+            value="0"
+        >
+
+
+        <button
+            class="btn-principal"
+            onclick="calcularCorrida()"
+        >
+            💰 CALCULAR VALOR DA CORRIDA
         </button>
 
-        <button class="limpar" onclick="limparTudo()">
-            LIMPAR
-        </button>
     </div>
 
 
-    <!-- RESULTADO -->
-    <div class="card resultado" id="resultado">
+    <!-- RESULTADO PARA CLIENTE -->
 
-        <h2>📊 Resultado da corrida</h2>
+    <div
+        class="card resultado-cliente"
+        id="resultadoCliente"
+    >
 
-        <div class="linha">
-            <span>Km motorista → cliente</span>
-            <strong id="rKmBusca">0 km</strong>
-        </div>
+        <h2>✅ Estimativa da viagem</h2>
 
-        <div class="linha">
-            <span>Km cliente → destino</span>
-            <strong id="rKmViagem">0 km</strong>
-        </div>
 
         <div class="linha">
-            <span>Km total</span>
-            <strong id="rKmTotal">0 km</strong>
+
+            <span>
+                Distância total
+            </span>
+
+            <strong id="clienteKm">
+                0 km
+            </strong>
+
         </div>
+
 
         <div class="linha">
-            <span>Valor por km</span>
-            <strong>R$ 3,00</strong>
+
+            <span>
+                Tempo de espera
+            </span>
+
+            <strong id="clienteEspera">
+                0 min
+            </strong>
+
         </div>
+
 
         <div class="linha">
-            <span>Valor da distância</span>
-            <strong id="rDistancia">R$ 0,00</strong>
+
+            <span>
+                Estacionamento
+            </span>
+
+            <strong id="clienteEstacionamento">
+                R$ 0,00
+            </strong>
+
         </div>
+
 
         <div class="linha">
-            <span>Espera</span>
-            <strong id="rEspera">R$ 0,00</strong>
+
+            <span>
+                Pedágio
+            </span>
+
+            <strong id="clientePedagio">
+                R$ 0,00
+            </strong>
+
         </div>
 
-        <div class="linha">
-            <span>Estacionamento</span>
-            <strong id="rEstacionamento">R$ 0,00</strong>
+
+        <div class="preco">
+
+            <small>
+                VALOR ESTIMADO DA CORRIDA
+            </small>
+
+            <strong id="clienteTotal">
+                R$ 0,00
+            </strong>
+
         </div>
 
-        <div class="linha">
-            <span>Pedágio</span>
-            <strong id="rPedagio">R$ 0,00</strong>
-        </div>
 
-        <div class="linha">
-            <span>Subtotal</span>
-            <strong id="rSubtotal">R$ 0,00</strong>
-        </div>
+        <button
+            class="btn-whatsapp"
+            onclick="enviarWhatsApp()"
+        >
+            📲 SOLICITAR CORRIDA PELO WHATSAPP
+        </button>
 
-        <div class="linha">
-            <span>Valor mínimo</span>
-            <strong>R$ 35,00</strong>
-        </div>
 
-        <div class="valor-final" id="rTotal">
-            R$ 0,00
-        </div>
+        <button
+            class="btn-limpar"
+            onclick="limparSistema()"
+        >
+            🔄 NOVA SIMULAÇÃO
+        </button>
 
-        <div class="linha">
-            <span>Combustível estimado</span>
-            <strong id="rCombustivel">R$ 0,00</strong>
-        </div>
+    </div>
 
-        <div class="linha">
-            <span>Litros estimados</span>
-            <strong id="rLitros">0 L</strong>
-        </div>
 
-        <div class="lucro">
-            Resultado após combustível:
-            <span id="rLucro">R$ 0,00</span>
-        </div>
+    <!-- BOTÃO MOTORISTA -->
+
+    <div class="card">
+
+        <button
+            class="btn-secundario"
+            onclick="abrirMotorista()"
+        >
+            🚗 Área do motorista
+        </button>
 
     </div>
 
 </div>
+
+
+
+<!-- =====================================================
+     ÁREA DO MOTORISTA
+===================================================== -->
+
+<div
+    class="painel-motorista"
+    id="areaMotorista"
+>
+
+
+    <div class="motorista-header">
+
+        <strong>
+            🚗 Painel do motorista
+        </strong>
+
+        <span>
+            Controle interno da corrida
+        </span>
+
+    </div>
+
+
+    <!-- CONFIGURAÇÕES -->
+
+    <div class="card">
+
+        <h2>⚙️ Valores configurados</h2>
+
+
+        <div class="linha">
+
+            <span>
+                Valor por km
+            </span>
+
+            <strong>
+                R$ 3,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Combustível
+            </span>
+
+            <strong>
+                R$ 6,95/L
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Consumo
+            </span>
+
+            <strong>
+                10 km/L
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Espera
+            </span>
+
+            <strong>
+                R$ 2,00/min
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Estacionamento
+            </span>
+
+            <strong>
+                R$ 15,00/h
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Corrida mínima
+            </span>
+
+            <strong>
+                R$ 35,00
+            </strong>
+
+        </div>
+
+
+        <div class="configuracao">
+
+            🛣️ O pedágio será integrado ao
+            Google Maps na próxima etapa do sistema.
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMAÇÕES DO CLIENTE -->
+
+    <div class="card">
+
+        <h2>👤 Cliente</h2>
+
+
+        <div class="linha">
+
+            <span>
+                Nome
+            </span>
+
+            <strong id="motoristaNome">
+                —
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                WhatsApp
+            </span>
+
+            <strong id="motoristaTelefone">
+                —
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Embarque
+            </span>
+
+            <strong id="motoristaOrigem">
+                —
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Destino
+            </span>
+
+            <strong id="motoristaDestino">
+                —
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Passageiros
+            </span>
+
+            <strong id="motoristaPassageiros">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULTADO MOTORISTA -->
+
+    <div
+        class="card resultado-motorista"
+        id="resultadoMotorista"
+    >
+
+        <h2>📊 Resultado interno</h2>
+
+
+        <div class="linha">
+
+            <span>
+                Km motorista → cliente
+            </span>
+
+            <strong id="motoristaKmBusca">
+                0 km
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Km cliente → destino
+            </span>
+
+            <strong id="motoristaKmViagem">
+                0 km
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Km total
+            </span>
+
+            <strong id="motoristaKmTotal">
+                0 km
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Valor da distância
+            </span>
+
+            <strong id="motoristaDistancia">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Espera
+            </span>
+
+            <strong id="motoristaEspera">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Estacionamento
+            </span>
+
+            <strong id="motoristaEstacionamento">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Pedágio
+            </span>
+
+            <strong id="motoristaPedagio">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong id="motoristaSubtotal">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Valor mínimo aplicado
+            </span>
+
+            <strong id="motoristaMinimo">
+                Não
+            </strong>
+
+        </div>
+
+
+        <div class="preco">
+
+            <small>
+                VALOR COBRADO
+            </small>
+
+            <strong id="motoristaTotal">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <!-- COMBUSTÍVEL -->
+
+        <div class="linha">
+
+            <span>
+                Litros estimados
+            </span>
+
+            <strong id="motoristaLitros">
+                0 L
+            </strong>
+
+        </div>
+
+
+        <div class="linha">
+
+            <span>
+                Custo do combustível
+            </span>
+
+            <strong id="motoristaCombustivel">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+
+        <div class="lucro-box">
+
+            <span>
+                Resultado após combustível
+            </span>
+
+            <strong id="motoristaLucro">
+                R$ 0,00
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <button
+            class="btn-secundario"
+            onclick="voltarCliente()"
+        >
+            👤 Voltar para área do cliente
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    Transporte Particular • Sistema de demonstração
+
+</div>
+
+
+</div>
+
 
 
 <script>
 
+/* =====================================================
+   CONFIGURAÇÕES DO SISTEMA
+===================================================== */
+
+const CONFIG = {
+
+    valorPorKm: 3.00,
+
+    precoCombustivel: 6.95,
+
+    consumoKmLitro: 10,
+
+    esperaPorMinuto: 2.00,
+
+    estacionamentoPorHora: 15.00,
+
+    valorMinimo: 35.00
+
+};
+
+
+/* =====================================================
+   FORMATAÇÃO DE DINHEIRO
+===================================================== */
+
 function dinheiro(valor) {
-    return valor.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
+
+    return valor.toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+
 }
+
+
+/* =====================================================
+   CALCULAR CORRIDA
+===================================================== */
 
 function calcularCorrida() {
 
-    // VALORES CONFIGURADOS
-    const VALOR_KM = 3.00;
-    const PRECO_COMBUSTIVEL = 6.95;
-    const CONSUMO = 10;
-    const VALOR_ESPERA_MIN = 2.00;
-    const VALOR_ESTACIONAMENTO_HORA = 15.00;
-    const VALOR_MINIMO = 35.00;
 
-    // DADOS
-    const kmBusca = Number(document.getElementById("kmBusca").value) || 0;
-    const kmViagem = Number(document.getElementById("kmViagem").value) || 0;
+    /* Dados */
 
-    const espera = Number(document.getElementById("espera").value) || 0;
-    const estacionamento = Number(document.getElementById("estacionamento").value) || 0;
-    const pedagio = Number(document.getElementById("pedagio").value) || 0;
+    const nome =
+        document.getElementById("nome").value.trim();
 
-    // CÁLCULOS
-    const kmTotal = kmBusca + kmViagem;
+    const telefone =
+        document.getElementById("telefone").value.trim();
 
-    const valorDistancia = kmTotal * VALOR_KM;
+    const origem =
+        document.getElementById("origem").value.trim();
 
-    const valorEspera = espera * VALOR_ESPERA_MIN;
+    const destino =
+        document.getElementById("destino").value.trim();
+
+    const passageiros =
+        document.getElementById("passageiros").value;
+
+
+    /* Distâncias */
+
+    const kmBusca =
+        Number(
+            document.getElementById("kmBusca").value
+        ) || 0;
+
+
+    const kmViagem =
+        Number(
+            document.getElementById("kmViagem").value
+        ) || 0;
+
+
+    const kmTotal =
+        kmBusca + kmViagem;
+
+
+    /* Extras */
+
+    const espera =
+        Number(
+            document.getElementById("espera").value
+        ) || 0;
+
+
+    const estacionamento =
+        Number(
+            document.getElementById("estacionamento").value
+        ) || 0;
+
+
+    const pedagio =
+        Number(
+            document.getElementById("pedagio").value
+        ) || 0;
+
+
+    /* Cálculo da distância */
+
+    const valorDistancia =
+        kmTotal * CONFIG.valorPorKm;
+
+
+    /* Cálculo da espera */
+
+    const valorEspera =
+           const valorEspera =
+        espera * CONFIG.esperaPorMinuto;
+
+
+    /* Cálculo do estacionamento */
 
     const valorEstacionamento =
-        estacionamento * VALOR_ESTACIONAMENTO_HORA;
+        estacionamento *
+        CONFIG.estacionamentoPorHora;
+
+
+    /* Subtotal da corrida */
 
     const subtotal =
         valorDistancia +
@@ -344,75 +1285,384 @@ function calcularCorrida() {
         valorEstacionamento +
         pedagio;
 
-    // A corrida nunca fica abaixo de R$ 35
-    const total = Math.max(subtotal, VALOR_MINIMO);
 
-    // COMBUSTÍVEL
-    const litros = kmTotal / CONSUMO;
+    /* Aplicação do valor mínimo */
+
+    const total =
+        Math.max(
+            subtotal,
+            CONFIG.valorMinimo
+        );
+
+
+    const minimoAplicado =
+        subtotal < CONFIG.valorMinimo;
+
+
+    /* =========================
+       CÁLCULO DO COMBUSTÍVEL
+    ========================= */
+
+    const litros =
+        kmTotal /
+        CONFIG.consumoKmLitro;
+
 
     const custoCombustivel =
-        litros * PRECO_COMBUSTIVEL;
-
-    const resultadoCombustivel =
-        total - custoCombustivel;
+        litros *
+        CONFIG.precoCombustivel;
 
 
-    // MOSTRAR RESULTADOS
-    document.getElementById("rKmBusca").textContent =
-        kmBusca.toFixed(1) + " km";
+    const lucro =
+        total -
+        custoCombustivel;
 
-    document.getElementById("rKmViagem").textContent =
-        kmViagem.toFixed(1) + " km";
 
-    document.getElementById("rKmTotal").textContent =
+    /* =========================
+       RESULTADO PARA O CLIENTE
+    ========================= */
+
+    document.getElementById("clienteKm")
+        .textContent =
         kmTotal.toFixed(1) + " km";
 
-    document.getElementById("rDistancia").textContent =
-        dinheiro(valorDistancia);
 
-    document.getElementById("rEspera").textContent =
-        dinheiro(valorEspera);
+    document.getElementById("clienteEspera")
+        .textContent =
+        espera + " min";
 
-    document.getElementById("rEstacionamento").textContent =
+
+    document.getElementById("clienteEstacionamento")
+        .textContent =
         dinheiro(valorEstacionamento);
 
-    document.getElementById("rPedagio").textContent =
+
+    document.getElementById("clientePedagio")
+        .textContent =
         dinheiro(pedagio);
 
-    document.getElementById("rSubtotal").textContent =
-        dinheiro(subtotal);
 
-    document.getElementById("rTotal").textContent =
+    document.getElementById("clienteTotal")
+        .textContent =
         dinheiro(total);
 
-    document.getElementById("rLitros").textContent =
+
+    document.getElementById("resultadoCliente")
+        .style.display =
+        "block";
+
+
+    /* =========================
+       RESULTADO PARA O MOTORISTA
+    ========================= */
+
+    document.getElementById("motoristaNome")
+        .textContent =
+        nome || "Não informado";
+
+
+    document.getElementById("motoristaTelefone")
+        .textContent =
+        telefone || "Não informado";
+
+
+    document.getElementById("motoristaOrigem")
+        .textContent =
+        origem || "Não informado";
+
+
+    document.getElementById("motoristaDestino")
+        .textContent =
+        destino || "Não informado";
+
+
+    document.getElementById("motoristaPassageiros")
+        .textContent =
+        passageiros;
+
+
+    document.getElementById("motoristaKmBusca")
+        .textContent =
+        kmBusca.toFixed(1) + " km";
+
+
+    document.getElementById("motoristaKmViagem")
+        .textContent =
+        kmViagem.toFixed(1) + " km";
+
+
+    document.getElementById("motoristaKmTotal")
+        .textContent =
+        kmTotal.toFixed(1) + " km";
+
+
+    document.getElementById("motoristaDistancia")
+        .textContent =
+        dinheiro(valorDistancia);
+
+
+    document.getElementById("motoristaEspera")
+        .textContent =
+        dinheiro(valorEspera);
+
+
+    document.getElementById("motoristaEstacionamento")
+        .textContent =
+        dinheiro(valorEstacionamento);
+
+
+    document.getElementById("motoristaPedagio")
+        .textContent =
+        dinheiro(pedagio);
+
+
+    document.getElementById("motoristaSubtotal")
+        .textContent =
+        dinheiro(subtotal);
+
+
+    document.getElementById("motoristaMinimo")
+        .textContent =
+        minimoAplicado
+            ? "Sim"
+            : "Não";
+
+
+    document.getElementById("motoristaTotal")
+        .textContent =
+        dinheiro(total);
+
+
+    document.getElementById("motoristaLitros")
+        .textContent =
         litros.toFixed(2) + " L";
 
-    document.getElementById("rCombustivel").textContent =
+
+    document.getElementById("motoristaCombustivel")
+        .textContent =
         dinheiro(custoCombustivel);
 
-    document.getElementById("rLucro").textContent =
-        dinheiro(resultadoCombustivel);
 
-    document.getElementById("resultado").style.display =
-        "block";
+    document.getElementById("motoristaLucro")
+        .textContent =
+        dinheiro(lucro);
+
+
+    /* =========================
+       GUARDAR DADOS DA CORRIDA
+    ========================= */
+
+    window.dadosCorrida = {
+
+        nome: nome,
+
+        telefone: telefone,
+
+        origem: origem,
+
+        destino: destino,
+
+        passageiros: passageiros,
+
+        kmTotal: kmTotal,
+
+        total: total
+
+    };
+
 }
 
 
-function limparTudo() {
+/* =========================
+   WHATSAPP
+========================= */
 
-    document.querySelectorAll("input").forEach(function(input) {
+function enviarWhatsApp() {
 
-        if (input.type === "number") {
-            input.value = input.id === "passageiros" ? 1 : 0;
-        } else {
-            input.value = "";
-        }
+    if (!window.dadosCorrida) {
 
-    });
+        alert(
+            "Primeiro calcule o valor da corrida."
+        );
 
-    document.getElementById("resultado").style.display =
+        return;
+
+    }
+
+
+    const dados =
+        window.dadosCorrida;
+
+
+    /*
+       COLOQUE AQUI O WHATSAPP
+       DO MOTORISTA.
+
+       SOMENTE NÚMEROS.
+
+       Exemplo:
+       5511999999999
+    */
+
+    const telefoneMotorista =
+        "5511999999999";
+
+
+    const mensagem =
+
+        "🚗 *SOLICITAÇÃO DE TRANSPORTE PARTICULAR*" +
+
+        "\n\n" +
+
+        "👤 Cliente: " +
+        dados.nome +
+
+        "\n📱 WhatsApp: " +
+        dados.telefone +
+
+        "\n📍 Embarque: " +
+        dados.origem +
+
+        "\n🏁 Destino: " +
+        dados.destino +
+
+        "\n👥 Passageiros: " +
+        dados.passageiros +
+
+        "\n🛣️ Distância estimada: " +
+        dados.kmTotal.toFixed(1) +
+        " km" +
+
+        "\n💰 Valor estimado: " +
+        dinheiro(dados.total) +
+
+        "\n\n" +
+
+        "Gostaria de confirmar esta viagem.";
+
+
+    const url =
+
+        "https://wa.me/" +
+        telefoneMotorista +
+        "?text=" +
+        encodeURIComponent(mensagem);
+
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   ÁREA DO MOTORISTA
+========================= */
+
+function abrirMotorista() {
+
+    document.getElementById(
+        "areaCliente"
+    ).style.display =
         "none";
+
+
+    document.getElementById(
+        "areaMotorista"
+    ).style.display =
+        "block";
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+/* =========================
+   VOLTAR PARA CLIENTE
+========================= */
+
+function voltarCliente() {
+
+    document.getElementById(
+        "areaMotorista"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "areaCliente"
+    ).style.display =
+        "block";
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+/* =========================
+   LIMPAR SISTEMA
+========================= */
+
+function limparSistema() {
+
+    document.querySelectorAll(
+        "input"
+    ).forEach(
+        function(campo) {
+
+            if (
+                campo.type === "number"
+            ) {
+
+                if (
+                    campo.id === "pedagio" ||
+                    campo.id === "espera" ||
+                    campo.id === "estacionamento"
+                ) {
+
+                    campo.value = 0;
+
+                } else {
+
+                    campo.value = "";
+
+                }
+
+            } else {
+
+                campo.value = "";
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "resultadoCliente"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "resultadoMotorista"
+    ).style.display =
+        "none";
+
+
+    window.dadosCorrida =
+        null;
+
 }
 
 </script>

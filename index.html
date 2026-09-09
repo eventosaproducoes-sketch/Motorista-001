@@ -1110,4 +1110,17 @@ function voltarInicioAdmin(){
   window.scrollTo(0,0);
 }
 </script>
+ <!-- ETAPA 6 — BOTÃO ADMIN -->
+<script>
+function mostrarAdmin(){
+  const b=document.createElement("button");
+  b.className="gray";
+  b.textContent="👑 ADMINISTRAÇÃO";
+  b.style.maxWidth="620px";
+  b.style.margin="20px auto";
+  b.onclick=abrirAcessoAdmin;
+  document.getElementById("inicio").appendChild(b);
+}
+window.addEventListener("load",mostrarAdmin);
+</script>
 </html>

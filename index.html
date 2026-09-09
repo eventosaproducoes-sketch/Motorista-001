@@ -864,4 +864,121 @@ function mensagemAcesso(txt){
   m.style.display="block";
 }
 </script>
+ <!-- ETAPA 3 — CADASTRO / LOGIN DO MOTORISTA -->
+
+<div id="acessoMotorista" style="display:none;position:fixed;inset:0;background:#f3f4f6;z-index:10000;overflow:auto">
+  <div class="header">
+    <div style="font-size:40px">🚗</div>
+    <h1>Área do Motorista</h1>
+    <p>Entre ou crie sua conta</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>🔐 Acesso do Motorista</h2>
+
+      <label>Nome completo</label>
+      <input id="motNome" placeholder="Seu nome completo">
+
+      <label>WhatsApp</label>
+      <input id="motWhats" type="tel" placeholder="(11) 99999-9999">
+
+      <label>Senha</label>
+      <input id="motSenha" type="password" placeholder="Crie uma senha">
+
+      <label>Placa do veículo</label>
+      <input id="motPlaca" placeholder="ABC1D23">
+
+      <label style="font-weight:normal;font-size:13px">
+        <input id="motAceite" type="checkbox" style="width:auto">
+        Aceito os Termos de Uso e a Política de Privacidade.
+      </label>
+
+      <button class="green" onclick="criarContaMotorista()">
+        CRIAR CONTA DE MOTORISTA
+      </button>
+
+      <button class="blue" onclick="loginMotorista()">
+        JÁ TENHO CONTA
+      </button>
+
+      <button class="gray" onclick="voltarInicioMotorista()">
+        VOLTAR
+      </button>
+
+      <div id="msgMotorista" class="info" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function entrarMotorista(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("cliente").style.display="none";
+  document.getElementById("motorista").style.display="none";
+  document.getElementById("acessoMotorista").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function criarContaMotorista(){
+  const nome=document.getElementById("motNome").value.trim();
+  const whats=document.getElementById("motWhats").value.trim();
+  const senha=document.getElementById("motSenha").value;
+  const placa=document.getElementById("motPlaca").value.trim();
+  const aceite=document.getElementById("motAceite").checked;
+
+  if(!nome||!whats||!senha||!placa)
+    return mensagemMotorista("Preencha todos os campos.");
+
+  if(!aceite)
+    return mensagemMotorista("É necessário aceitar os Termos de Uso e a Política de Privacidade.");
+
+  localStorage.setItem("motorista",JSON.stringify({
+    nome:nome,
+    whats:whats,
+    senha:senha,
+    placa:placa,
+    aceite:true,
+    aprovado:false,
+    dataCadastro:new Date().toISOString()
+  }));
+
+  mensagemMotorista("Cadastro realizado! Aguarde a aprovação.");
+
+  setTimeout(function(){
+    voltarInicioMotorista();
+  },1200);
+}
+
+function loginMotorista(){
+  const conta=JSON.parse(localStorage.getItem("motorista")||"null");
+  const whats=document.getElementById("motWhats").value.trim();
+  const senha=document.getElementById("motSenha").value;
+
+  if(!conta)
+    return mensagemMotorista("Nenhuma conta encontrada. Crie sua conta primeiro.");
+
+  if(conta.whats!==whats||conta.senha!==senha)
+    return mensagemMotorista("WhatsApp ou senha incorretos.");
+
+  if(!conta.aprovado)
+    return mensagemMotorista("Cadastro aguardando aprovação.");
+
+  document.getElementById("acessoMotorista").style.display="none";
+  document.getElementById("motorista").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function voltarInicioMotorista(){
+  document.getElementById("acessoMotorista").style.display="none";
+  document.getElementById("inicio").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function mensagemMotorista(txt){
+  const m=document.getElementById("msgMotorista");
+  m.textContent=txt;
+  m.style.display="block";
+}
+</script>
 </html>

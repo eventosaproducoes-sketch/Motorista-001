@@ -8,142 +8,71 @@
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f3f4f6;
- color:#17202a
+ margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#17202a
 }
 .header{
- background:#111827;
- color:white;
- text-align:center;
- padding:25px 15px;
+ background:#111827;color:#fff;text-align:center;padding:25px 15px;
  border-radius:0 0 22px 22px
 }
 .header h1{margin:5px 0;font-size:25px}
 .header p{margin:5px 0;font-size:14px;opacity:.85}
-.container{
- max-width:600px;
- margin:auto;
- padding:15px
-}
+.container{max-width:620px;margin:auto;padding:15px}
 .card{
- background:white;
- border-radius:16px;
- padding:18px;
- margin-bottom:15px;
+ background:#fff;border-radius:16px;padding:18px;margin-bottom:15px;
  box-shadow:0 3px 12px #00000012
 }
-h2{
- margin:0 0 15px;
- font-size:19px
-}
+h2{margin:0 0 15px;font-size:19px}
 label{
- display:block;
- font-weight:bold;
- font-size:14px;
- margin:12px 0 5px
+ display:block;font-weight:bold;font-size:14px;margin:12px 0 5px
 }
 input,select{
- width:100%;
- padding:13px;
- border:1px solid #d1d5db;
- border-radius:9px;
- font-size:16px;
- background:white
+ width:100%;padding:13px;border:1px solid #d1d5db;
+ border-radius:9px;font-size:16px;background:#fff
 }
-.grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px
-}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 button{
- width:100%;
- border:0;
- border-radius:10px;
- padding:14px;
- margin-top:10px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer
+ width:100%;border:0;border-radius:10px;padding:14px;
+ margin-top:10px;font-size:16px;font-weight:bold;cursor:pointer
 }
-.green{background:#16a34a;color:white}
-.blue{background:#2563eb;color:white}
-.whats{background:#25d366;color:white}
+.green{background:#16a34a;color:#fff}
+.blue{background:#2563eb;color:#fff}
+.whats{background:#25d366;color:#fff}
 .gray{background:#e5e7eb;color:#111827}
-.dark{background:#111827;color:white}
-.route{
- background:#eef5ff;
- padding:12px;
- border-radius:10px;
- font-size:13px;
- margin-top:12px
-}
-.result{
- display:none
-}
+.dark{background:#111827;color:#fff}
+.red{background:#dc2626;color:#fff}
+.result{display:none}
 .price{
- text-align:center;
- background:#f0fdf4;
- padding:20px;
- border-radius:14px;
- margin:15px 0
+ text-align:center;background:#f0fdf4;padding:20px;
+ border-radius:14px;margin:15px 0
 }
-.price small{
- display:block;
- font-size:12px
-}
+.price small{display:block;font-size:12px}
 .price strong{
- display:block;
- font-size:36px;
- color:#15803d;
- margin-top:5px
+ display:block;font-size:34px;color:#15803d;margin-top:5px
 }
 .line{
- display:flex;
- justify-content:space-between;
- gap:10px;
- padding:10px 0;
- border-bottom:1px solid #eee
+ display:flex;justify-content:space-between;gap:10px;
+ padding:10px 0;border-bottom:1px solid #eee
 }
 .line span{color:#667085}
 .line strong{text-align:right}
-.motorista{
- display:none
-}
+.motorista{display:none}
 .badge{
- display:inline-block;
- background:#e5e7eb;
- border-radius:20px;
- padding:6px 10px;
- font-size:12px;
- margin-bottom:10px
+ display:inline-block;background:#e5e7eb;border-radius:20px;
+ padding:6px 10px;font-size:12px;margin-bottom:10px
+}
+.info{
+ background:#eef5ff;padding:12px;border-radius:10px;
+ font-size:13px;line-height:1.5;margin-top:10px
 }
 .warning{
- background:#fff7ed;
- border-left:4px solid #f97316;
- padding
-:12px;
-    border-radius:8px;
-    font-size:13px;
-    line-height:1.5
+ background:#fff7ed;border-left:4px solid #f97316;
+ padding:12px;border-radius:8px;font-size:13px;line-height:1.5
 }
-
-.footer{
-    text-align:center;
-    color:#777;
-    font-size:12px;
-    padding:20px
-}
-
+.footer{text-align:center;color:#777;font-size:12px;padding:20px}
+.hidden{display:none}
 @media(max-width:430px){
-    .grid{
-        grid-template-columns:1fr
-    }
-
-    .header h1{
-        font-size:22px
-    }
+ .grid{grid-template-columns:1fr}
+ .header h1{font-size:22px}
 }
 </style>
 </head>
@@ -151,337 +80,336 @@ button{
 <body>
 
 <div class="header">
-    <div style="font-size:38px">🚗</div>
-    <h1>Transporte Particular</h1>
-    <p>Facilidade para o passageiro. Controle para o motorista.</p>
+ <div style="font-size:40px">🚗</div>
+ <h1>Transporte Particular</h1>
+ <p>Solicite sua viagem de forma simples, rápida e transparente.</p>
 </div>
 
 <div class="container">
 
-<div id="clienteArea">
+<!-- CLIENTE -->
+
+<section id="cliente">
 
 <div class="card">
-    <span class="badge">SOLICITAÇÃO DE VIAGEM</span>
-    <h2>👤 Dados do passageiro</h2>
+ <span class="badge">SOLICITAÇÃO DE VIAGEM</span>
+ <h2>👤 Dados do passageiro</h2>
 
-    <label>Nome</label>
-    <input id="nome" type="text" placeholder="Nome completo">
+ <label>Nome</label>
+ <input id="nome" placeholder="Nome completo">
 
-    <label>WhatsApp</label>
-    <input id="telefone" type="tel" placeholder="(11) 99999-9999">
+ <label>WhatsApp</label>
+ <input id="telefone" type="tel" placeholder="(11) 99999-9999">
+
+ <div class="grid">
+  <div>
+   <label>Data</label>
+   <input id="data" type="date">
+  </div>
+  <div>
+   <label>Horário</label>
+   <input id="hora" type="time">
+  </div>
+ </div>
 </div>
 
 <div class="card">
-    <h2>📍 Sua viagem</h2>
+ <h2>📍 Local da viagem</h2>
 
-    <label>Local de embarque</label>
-    <input id="origem" type="text" placeholder="Onde deseja ser buscado?">
+ <label>Local de embarque</label>
+ <input id="origem" placeholder="Endereço onde será buscado">
 
-    <label>Destino</label>
-    <input id="destino" type="text" placeholder="Para onde deseja ir?">
+ <label>Destino</label>
+ <input id="destino" placeholder="Endereço de destino">
 
-    <div class="grid">
-        <div>
-            <label>Data</label>
-            <input id="data" type="date">
-        </div>
-
-        <div>
-            <label>Horário</label>
-            <input id="hora" type="time">
-        </div>
-    </div>
-
-    <label>Passageiros</label>
-    <select id="passageiros">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-    </select>
+ <label>Passageiros</label>
+ <select id="passageiros">
+  <option value="1">1 passageiro</option>
+  <option value="2">2 passageiros</option>
+  <option value="3">3 passageiros</option>
+  <option value="4">4 passageiros</option>
+  <option value="5">5 passageiros</option>
+  <option value="6">6 passageiros</option>
+ </select>
 </div>
 
 <div class="card">
-    <h2>🧳 Necessidades</h2>
+ <h2>🧳 Necessidades</h2>
 
-    <label>Bagagem</label>
-    <select id="bagagem">
-        <option value="Não">Não</option>
-        <option value="Sim">Sim</option>
-    </select>
+ <label>Bagagem</label>
+ <select id="bagagem">
+  <option>Não</option>
+  <option>Sim</option>
+ </select>
 
-    <label>Precisa aguardar?</label>
-    <select id="temEspera" onchange="mostrarCampos()">
-        <option value="nao">Não</option>
-        <option value="sim">Sim</option>
-    </select>
+ <label>Precisa de espera?</label>
+ <select id="temEspera" onchange="campos()">
+  <option value="nao">Não</option>
+  <option value="sim">Sim</option>
+ </select>
 
-    <div id="campoEspera" style="display:none">
-        <label>Tempo de espera (minutos)</label>
-        <input id="espera" type="number" min="0" value="0">
-    </div>
+ <div id="boxEspera" class="hidden">
+  <label>Tempo de espera em minutos</label>
+  <input id="espera" type="number" min="0" value="0">
+ </div>
 
-    <label>Precisa de estacionamento?</label>
-    <select id="temEstacionamento" onchange="mostrarCampos()">
-        <option value="nao">Não</option>
-        <option value="sim">Sim</option>
-    </select>
+ <label>Precisa de estacionamento?</label>
+ <select id="temEstacionamento" onchange="campos()">
+  <option value="nao">Não</option>
+  <option value="sim">Sim</option>
+ </select>
 
-    <div id="campoEstacionamento" style="display:none">
-        <label>Tempo de estacionamento (horas)</label>
-        <input id="estacionamento" type="number" min="0" step="0.5" value="0">
-    </div>
+ <div id="boxEstacionamento" class="hidden">
+  <label>Tempo de estacionamento em horas</label>
+  <input id="estacionamento" type="number" min="0" step=".5" value="0">
+ </div>
 </div>
 
 <div class="card">
-    <h2>🗺️ Percurso</h2>
+ <h2>🗺️ Rota</h2>
 
-    <div class="route">
-        O sistema utilizará o Google Maps para auxiliar
-        na consulta da rota. A integração automática da
-        distância será adicionada na próxima etapa.
-    </div>
+ <div class="info">
+ O Google Maps será utilizado para consultar a rota.
+ Abra o mapa, confira a distância e informe os quilômetros abaixo.
+ </div>
 
-    <button class="blue" onclick="abrirGoogleMaps()">
-        🗺️ ABRIR ROTA NO GOOGLE MAPS
-    </button>
+ <button class="blue" onclick="maps()">
+ 🗺️ ABRIR ROTA NO GOOGLE MAPS
+ </button>
 
-    <label>Km motorista → cliente</label>
-    <input id="kmBusca" type="number" min="0" step="0.1"
-           placeholder="Ex.: 4">
+ <label>Km motorista → cliente</label>
+ <input id="kmBusca" type="number" min="0" step=".1" placeholder="Ex.: 5">
 
-    <label>Km cliente → destino</label>
-    <input id="kmViagem" type="number" min="0" step="0.1"
-           placeholder="Ex.: 15">
+ <label>Km cliente → destino</label>
+ <input id="kmViagem" type="number" min="0" step=".1" placeholder="Ex.: 20">
 
-    <label>Pedágio (R$)</label>
-    <input id="pedagio" type="number" min="0" step="0.01" value="0">
+ <label>Pedágio</label>
+ <input id="pedagio" type="number" min="0" step=".01" value="0">
 
-    <button class="green" onclick="calcular()">
-        💰 CALCULAR VALOR
-    </button>
+ <button class="green" onclick="calcular()">
+ 💰 CALCULAR VALOR DA VIAGEM
+ </button>
 </div>
 
 <div class="card result" id="resultadoCliente">
+ <h2>✅ Resumo da viagem</h2>
 
-    <h2>✅ Estimativa da viagem</h2>
+ <div class="line">
+  <span>Distância total</span>
+  <strong id="rKm">0 km</strong>
+ </div>
 
-    <div class="line">
-        <span>Distância total</span>
-        <strong id="cKm">0 km</strong>
-    </div>
+ <div class="line">
+  <span>Pedágio</span>
+  <strong id="rPedagio">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Pedágio</span>
-        <strong id="c
-id="cPedagio">R$ 0,00</strong>
-</div>
+ <div class="line">
+  <span>Espera</span>
+  <strong id="rEspera">R$ 0,00</strong>
+ </div>
 
-<div class="line">
-    <span>Espera</span>
-    <strong id="cEspera">R$ 0,00</strong>
-</div>
+ <div class="line">
+  <span>Estacionamento</span>
+  <strong id="rEstacionamento">R$ 0,00</strong>
+ </div>
 
-<div class="line">
-    <span>Estacionamento</span>
-    <strong id="cEstacionamento">R$ 0,00</strong>
-</div>
+ <div class="price">
+  <small>VALOR ESTIMADO DA VIAGEM</small>
+  <strong id="rTotal">R$ 0,00</strong>
+ </div>
 
-<div class="price">
-    <small>VALOR ESTIMADO DA CORRIDA</small>
-    <strong id="cTotal">R$ 0,00</strong>
-</div>
+ <div class="info">
+ O valor apresentado é uma estimativa calculada conforme
+ os dados informados na solicitação.
+ </div>
 
-<button class="whats" onclick="enviarWhatsApp()">
-    📲 SOLICITAR CORRIDA
-</button>
+ <button class="whats" onclick="whatsapp()">
+ 📲 ENVIAR SOLICITAÇÃO PELO WHATSAPP
+ </button>
 
-<button class="gray" onclick="novaCorrida()">
-    🔄 NOVA SOLICITAÇÃO
-</button>
-
-</div>
-
-<div class="card">
-    <button class="dark" onclick="abrirMotorista()">
-        🚗 ÁREA DO MOTORISTA
-    </button>
-</div>
-
-</div>
-
-
-<!-- ÁREA DO MOTORISTA -->
-
-<div id="motoristaArea" class="motorista">
-
-<div class="card">
-    <span class="badge">ÁREA INTERNA</span>
-    <h2>🚗 Painel do motorista</h2>
-
-    <p style="font-size:14px;color:#667085">
-        Controle interno da corrida, custos e resultado.
-    </p>
+ <button class="gray" onclick="nova()">
+ 🔄 NOVA SOLICITAÇÃO
+ </button>
 </div>
 
 <div class="card">
-    <h2>⚙️ Configuração atual</h2>
+ <button class="dark" onclick="abrirMotorista()">
+ 🚗 ÁREA DO MOTORISTA
+ </button>
+</div>
 
-    <div class="line">
-        <span>Valor por km</span>
-        <strong>R$ 3,00</strong>
-    </div>
+</section>
 
-    <div class="line">
-        <span>Combustível</span>
-        <strong>R$ 6,95/L</strong>
-    </div>
 
-    <div class="line">
-        <span>Consumo</span>
-        <strong>10 km/L</strong>
-    </div>
+<!-- MOTORISTA -->
 
-    <div class="line">
-        <span>Espera</span>
-        <strong>R$ 2,00/min</strong>
-    </div>
+<section id="motorista" class="motorista">
 
-    <div class="line">
-        <span>Estacionamento</span>
-        <strong>R$ 15,00/h</strong>
-    </div>
+<div class="card">
+ <span class="badge">PAINEL DO MOTORISTA</span>
+ <h2>🚗 Controle da corrida</h2>
 
-    <div class="line">
-        <span>Corrida mínima</span>
-        <strong>R$ 35,00</strong>
-    </div>
+ <div class="info">
+ Esta área mostra o valor da corrida, custos estimados
+ de combustível e resultado após combustível.
+ </div>
+</div>
+
+<div class="card">
+ <h2>⚙️ Valores configurados</h2>
+
+ <div class="line">
+  <span>Valor por km</span>
+  <strong>R$ 3,00</strong>
+ </div>
+
+ <div class="line">
+  <span>Combustível</span>
+  <strong>R$ 6,95/L</strong>
+ </div>
+
+ <div class="line">
+  <span>Consumo</span>
+  <strong>10 km/L</strong>
+ </div>
+
+ <div class="line">
+  <span>Espera</span>
+  <strong>R$ 2,00/min</strong>
+ </div>
+
+ <div class="line">
+  <span>Estacionamento</span>
+  <strong>R$ 15,00/h</strong>
+ </div>
+
+ <div class="line">
+  <span>Valor mínimo</span>
+  <strong>R$ 35,00</strong>
+ </div>
 </div>
 
 <div class="card result" id="resultadoMotorista">
 
-    <h2>📊 Análise da corrida</h2>
+ <h2>📊 Detalhamento da corrida</h2>
 
-    <div class="line">
-        <span>Cliente</span>
-        <strong id="mNome">-</strong>
-    </div>
+ <div class="line">
+  <span>Cliente</span>
+  <strong id="mNome">-</strong>
+ </div>
 
-    <div class="line">
-        <span>WhatsApp</span>
-        <strong id="mTelefone">-</strong>
-    </div>
+ <div class="line">
+  <span>WhatsApp</span>
+  <strong id="mTelefone">-</strong>
+ </div>
 
-    <div class="line">
-        <span>Embarque</span>
-        <strong id="mOrigem">-</strong>
-    </div>
+ <div class="line">
+  <span>Embarque</span>
+  <strong id="mOrigem">-</strong>
+ </div>
 
-    <div class="line">
-        <span>Destino</span>
-        <strong id="mDestino">-</strong>
-    </div>
+ <div class="line">
+  <span>Destino</span>
+  <strong id="mDestino">-</strong>
+ </div>
 
-    <div class="line">
-        <span>Passageiros</span>
-        <strong id="mPassageiros">-</strong>
-    </div>
+ <div class="line">
+  <span>Passageiros</span>
+  <strong id="mPassageiros">-</strong>
+ </div>
 
-    <div class="line">
-        <span>Km motorista → cliente</span>
-        <strong id="mBusca">0 km</strong>
-    </div>
+ <div class="line">
+  <span>Km até cliente</span>
+  <strong id="mBusca">0 km</strong>
+ </div>
 
-    <div class="line">
-        <span>Km cliente → destino</span>
-        <strong id="mViagem">0 km</strong>
-    </div>
+ <div class="line">
+  <span>Km da viagem</span>
+  <strong id="mViagem">0 km</strong>
+ </div>
 
-    <div class="line">
-        <span>Km total</span>
-        <strong id="mKmTotal">0 km</strong>
-    </div>
+ <div class="line">
+  <span>Km total</span>
+  <strong id="mKm">0 km</strong>
+ </div>
 
-    <div class="line">
-        <span>Valor da distância</span>
-        <strong id="mDistancia">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Valor da distância</span>
+  <strong id="mDistancia">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Espera</span>
-        <strong id="mEspera">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Espera</span>
+  <strong id="mEspera">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Estacionamento</span>
-        <strong id="mEstacionamento">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Estacionamento</span>
+  <strong id="mEstacionamento">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Pedágio</span>
-        <strong id="mPedagio">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Pedágio</span>
+  <strong id="mPedagio">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Subtotal</span>
-        <strong id="mSubtotal">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Subtotal</span>
+  <strong id="mSubtotal">R$ 0,00</strong>
+ </div>
 
-    <div class="line">
-        <span>Valor mínimo aplicado</span>
-        <strong id="mMinimo">Não</strong>
-    </div>
+ <div class="line">
+  <span>Valor mínimo aplicado</span>
+  <strong id="mMinimo">Não</strong>
+ </div>
 
-    <div class="price">
-        <small>VALOR DA CORRIDA</small>
-        <strong id="mTotal">R$ 0,00</strong>
-    </div>
+ <div class="price">
+  <small>VALOR DA CORRIDA</small>
+  <strong id="mTotal">R$ 0,00</strong>
+ </div>
 
-    <h2>⛽ Controle de combustível</h2>
+ <h2>⛽ Combustível</h2>
 
-    <div class="line">
-        <span>Litros estimados</span>
-        <strong id="mLitros">0 L</strong>
-    </div>
+ <div class="line">
+  <span>Consumo estimado</span>
+  <strong id="mLitros">0 L</strong>
+ </div>
 
-    <div class="line">
-        <span>Custo combustível</span>
-        <strong id="mCombustivel">R$ 0,00</strong>
-    </div>
+ <div class="line">
+  <span>Custo do combustível</span>
+  <strong id="mCombustivel">R$ 0,00</strong>
+ </div>
 
-    <div class="price">
-        <small>RESULTADO APÓS COMBUSTÍVEL</small>
-        <strong id="mLucro">R
-$ 0,00</strong>
-</div>
+ <div class="price">
+  <small>RESULTADO APÓS COMBUSTÍVEL</small>
+  <strong id="mResultado">R$ 0,00</strong>
+ </div>
 
 </div>
 
 <div class="card">
-    <div class="warning">
-        🛣️ O Google Maps será integrado para automatizar
-        distância, tempo e pedágio quando disponível.
-    </div>
+ <button class="blue" onclick="maps()">
+ 🗺️ ABRIR ROTA NO GOOGLE MAPS
+ </button>
+
+ <button class="gray" onclick="voltarCliente()">
+ 👤 VOLTAR PARA CLIENTE
+ </button>
 </div>
 
 <div class="card">
-
-    <button class="blue" onclick="abrirGoogleMaps()">
-        🗺️ ABRIR ROTA NO GOOGLE MAPS
-    </button>
-
-    <button class="gray" onclick="voltarCliente()">
-        👤 VOLTAR PARA CLIENTE
-    </button>
-
+ <div class="warning">
+ 🛣️ <b>Próxima evolução:</b> integração direta com
+ Google Maps para o sistema buscar automaticamente
+ distância e tempo da rota.
+ </div>
 </div>
 
-</div>
+</section>
 
 <div class="footer">
-    Transporte Particular • Sistema de demonstração
+ Transporte Particular • Sistema de demonstração
 </div>
 
 </div>
@@ -489,435 +417,289 @@ $ 0,00</strong>
 
 <script>
 
-const CONFIG = {
-    valorKm:3.00,
-    gasolina:6.95,
-    consumo:10,
-    esperaMinuto:2.00,
-    estacionamentoHora:15.00,
-    minimo:35.00
+const CONFIG={
+ valorKm:3,
+ gasolina:6.95,
+ consumo:10,
+ esperaMin:2,
+ estacionamentoHora:15,
+ minimo:35
 };
 
-function dinheiro(valor){
+let corrida=null;
 
-    return valor.toLocaleString("pt-BR",{
-        style:"currency",
-        currency:"BRL"
-    });
-
+function dinheiro(v){
+ return Number(v).toLocaleString("pt-BR",{
+  style:"currency",
+  currency:"BRL"
+ });
 }
 
-function mostrarCampos(){
+function campos(){
 
-    const espera =
-        document.getElementById("temEspera").value;
+ const espera=document.getElementById("temEspera").value;
+ const estacionamento=document.getElementById("temEstacionamento").value;
 
-    const estacionamento =
-        document.getElementById("temEstacionamento").value;
+ document.getElementById("boxEspera").style.display=
+  espera==="sim"?"block":"none";
 
-    document.getElementById("campoEspera").style.display =
-        espera==="sim" ? "block" : "none";
+ document.getElementById("boxEstacionamento").style.display=
+  estacionamento==="sim"?"block":"none";
+}
 
-    document.getElementById("campoEstacionamento").style.display =
-        estacionamento==="sim" ? "block" : "none";
+function maps(){
 
+ const origem=document.getElementById("origem").value.trim();
+ const destino=document.getElementById("destino").value.trim();
+
+ if(!origem||!destino){
+  alert("Informe o embarque e o destino primeiro.");
+  return;
+ }
+
+ const url=
+ "https://www.google.com/maps/dir/?api=1"+
+ "&origin="+encodeURIComponent(origem)+
+ "&destination="+encodeURIComponent(destino)+
+ "&travelmode=driving";
+
+ window.open(url,"_blank");
 }
 
 function calcular(){
 
-    const nome =
-        document.getElementById("nome").value.trim();
+ const nome=document.getElementById("nome").value.trim();
+ const telefone=document.getElementById("telefone").value.trim();
+ const origem=document.getElementById("origem").value.trim();
+ const destino=document.getElementById("destino").value.trim();
 
-    const telefone =
-        document.getElementById("telefone").value.trim();
+ const passageiros=document.getElementById("passageiros").value;
 
-    const origem =
-        document.getElementById("origem").value.trim();
+ const kmBusca=
+ Number(document.getElementById("kmBusca").value)||0;
 
-    const destino =
-        document.getElementById("destino").value.trim();
+ const kmViagem=
+ Number(document.getElementById("kmViagem").value)||0;
 
-    const passageiros =
-        document.getElementById("passageiros").value;
+ const espera=
+ Number(document.getElementById("espera").value)||0;
 
-    const kmBusca =
-        Number(document.getElementById("kmBusca").value)||0;
+ const estacionamento=
+ Number(document.getElementById("estacionamento").value)||0;
 
-    const kmViagem =
-        Number(document.getElementById("kmViagem").value)||0;
+ const pedagio=
+ Number(document.getElementById("pedagio").value)||0;
 
-    const espera =
-        Number(document.getElementById("espera").value)||0;
+ if(!nome){
+  alert("Informe o nome do passageiro.");
+  return;
+ }
 
-    const estacionamento =
-        Number(document.getElementById("estacionamento").value)||0;
+ if(!origem){
+  alert("Informe o local de embarque.");
+  return;
+ }
 
-    const pedagio =
-        Number(document.getElementById("pedagio").value)||0;
+ if(!destino){
+  alert("Informe o destino.");
+  return;
+ }
 
+ if(kmBusca+kmViagem<=0){
+  alert("Informe as distâncias consultadas no Google Maps.");
+  return;
+ }
 
-    if(!nome){
+ const kmTotal=kmBusca+kmViagem;
 
-        alert("Informe o nome do passageiro.");
+ const valorDistancia=
+ kmTotal*CONFIG.valorKm;
 
-        return;
+ const valorEspera=
+ espera*CONFIG.esperaMin;
 
-    }
+ const valorEstacionamento=
+ estacionamento*CONFIG.estacionamentoHora;
 
-    if(!origem){
+ const subtotal=
+ valorDistancia+
+ valorEspera+
+ valorEstacionamento+
+ pedagio;
 
-        alert("Informe o local de embarque.");
+ const total=
+ Math.max(subtotal,CONFIG.minimo);
 
-        return;
+ const minimoAplicado=
+ subtotal<CONFIG.minimo;
 
-    }
+ const litros=
+ kmTotal/CONFIG.consumo;
 
-    if(!destino){
+ const custoCombustivel=
+ litros*CONFIG.gasolina;
 
-        alert("Informe o destino.");
+ const resultado=
+ total-custoCombustivel;
 
-        return;
 
-    }
+ document.getElementById("rKm").textContent=
+ kmTotal.toFixed(1)+" km";
 
-    if(kmBusca+kmViagem<=0){
+ document.getElementById("rPedagio").textContent=
+ dinheiro(pedagio);
 
-        alert("Informe as distâncias da viagem.");
+ document.getElementById("rEspera").textContent=
+ dinheiro(valorEspera);
 
-        return;
+ document.getElementById("rEstacionamento").textContent=
+ dinheiro(valorEstacionamento);
 
-    }
+ document.getElementById("rTotal").textContent=
+ dinheiro(total);
 
+ document.getElementById("resultadoCliente").style.display=
+ "block";
 
-    const kmTotal =
-        kmBusca+kmViagem;
 
+ document.getElementById("mNome").textContent=nome;
 
-    const valorDistancia =
-        kmTotal*CONFIG.valorKm;
+ document.getElementById("mTelefone").textContent=
+ telefone||"Não informado";
 
+ document.getElementById("mOrigem").textContent=origem;
 
-    const valorEspera =
-        espera*CONFIG.esperaMinuto;
+ document.getElementById("mDestino").textContent=destino;
 
+ document.getElementById("mPassageiros").textContent=
+ passageiros;
 
-    const valorEstacionamento =
-        estacionamento*CONFIG.estacionamentoHora;
+ document.getElementById("mBusca").textContent=
+ kmBusca.toFixed(1)+" km";
 
+ document.getElementById("mViagem").textContent=
+ kmViagem.toFixed(1)+" km";
 
-    const subtotal =
-        valorDistancia+
-        valorEspera+
-        valorEstacionamento+
-        pedagio;
+ document.getElementById("mKm").textContent=
+ kmTotal.toFixed(1)+" km";
 
+ document.getElementById("mDistancia").textContent=
+ dinheiro(valorDistancia);
 
-    const total =
-        Math.max(subtotal,CONFIG.minimo);
+ document.getElementById("mEspera").textContent=
+ dinheiro(valorEspera);
 
+ document.getElementById("mEstacionamento").textContent=
+ dinheiro(valorEstacionamento);
 
-    const minimoAplicado =
-        subtotal<CONFIG.minimo;
+ document.getElementById("mPedagio").textContent=
+ dinheiro(pedagio);
 
+ document.getElementById("mSubtotal").textContent=
+ dinheiro(subtotal);
 
-    const litros =
-        kmTotal/CONFIG.consumo;
+ document.getElementById("mMinimo").textContent=
+ minimoAplicado?"Sim":"Não";
 
+ document.getElementById("mTotal").textContent=
+ dinheiro(total);
 
-    const custoCombustivel =
-        litros*CONFIG.gasolina;
+ document.getElementById("mLitros").textContent=
+ litros.toFixed(2)+" L";
 
+ document.getElementById("mCombustivel").textContent=
+ dinheiro(custoCombustivel);
 
-    const resultado =
-        total-custoCombustivel;
+ document.getElementById("mResultado").textContent=
+ dinheiro(resultado);
 
+ document.getElementById("resultadoMotorista").style.display=
+ "block";
 
-    document.getElementById("cKm").textContent =
-        kmTotal.toFixed(1)+" km";
 
-    document.getElementById("cPedagio").textContent =
-        dinheiro(pedagio);
-
-    document.getElementById("cEspera").textContent =
-        dinheiro(valorEspera);
-
-    document.getElementById("cEstacionamento").textContent =
-        dinheiro(valorEstacionamento);
-
-    document.getElementById("cTotal").textContent =
-        dinheiro(total);
-
-    document.getElementById("resultadoCliente").style.display =
-        "block";
-
-
-    document.getElementById("mNome").textContent =
-        nome;
-
-    document.getElementById("mTelefone").textContent =
-        telefone||"Não informado";
-
-    document.getElementById("mOrigem").textContent =
-        origem;
-
-    document.getElementById("mDestino").textContent =
-        destino;
-
-    document.getElementById("mPassageiros").textContent =
-        passageiros;
-
-    document.getElementById("mBusca").textContent =
-        kmBusca.toFixed(1)+" km";
-
-    document.getElementById("mViagem").textContent =
-        kmViagem.toFixed(1)+" km";
-
-    document.getElementById("mKmTotal").textContent =
-        kmTotal.toFixed(1)+" km";
-
-    document.getElementById("mDistancia").textContent =
-        dinheiro(valorDistancia);
-
-    document.getElementById("mEspera").textContent =
-        dinheiro(valorEspera);
-
-    document.getElementById("mEstacionamento").textContent =
-        dinheiro(valorEstacionamento);
-
-    document.getElementById("mPedagio").textContent =
-        dinheiro(pedagio);
-
-    document.getElementById("mSubtotal").textContent =
-        dinheiro(subtotal);
-
-    document.getElementById("mMinimo").textContent =
-        minimoAplicado ? "Sim" : "Não";
-
-    document.getElementById("mTotal").textContent =
-        dinheiro(total);
-
-    document.getElementById("mLitros").textContent =
-        litros.toFixed(2)+" L";
-
-    document.getElementById("mCombustivel").textContent =
-        dinheiro(custoCombustivel);
-
-    document.getElementById("mLucro").textContent =
-        dinheiro(resultado);
-
-
-    document.getElementById("resultadoMotorista").style.display =
-        "block";
-
-
-    window.corrida = {
-
-        nome:nome,
-
-        telefone:telefone,
-
-        origem:origem,
-
-        destino:destino,
-
-        passageiros:passageiros,
-
-        kmTotal:kmTotal,
-
-        total:total
-
-    };
-
+ corrida={
+  nome:nome,
+  telefone:telefone,
+  origem:origem,
+  destino:destino,
+  passageiros:passageiros,
+  km:kmTotal,
+  total:total
+ };
 }
 
+function whatsapp(){
 
-function abrirGoogleMaps(){
+ if(!corrida){
+  alert("Calcule primeiro o valor da viagem.");
+  return;
+ }
 
-    const origem =
-        document.getElementById("origem").value.trim();
+ /*
+  TROQUE PELO WHATSAPP REAL DO MOTORISTA.
+  EXEMPLO:
+  5511999999999
+ */
 
-    const destino =
-        document.getElementById("destino").value.trim();
+ const numero="5511999999999";
 
+ const mensagem=
+ "🚗 *SOLICITAÇÃO DE TRANSPORTE PARTICULAR*"+
+ "\n\n"+
+ "👤 Cliente: "+corrida.nome+
+ "\n📱 WhatsApp: "+corrida.telefone+
+ "\n📍 Embarque: "+corrida.origem+
+ "\n🏁 Destino: "+corrida.destino+
+ "\n👥 Passageiros: "+corrida.passageiros+
+ "\n🛣️ Distância: "+corrida.km.toFixed(1)+" km"+
+ "\n💰 Valor estimado: "+dinheiro(corrida.total)+
+ "\n\n"+
+ "Gostaria de confirmar a corrida.";
 
-    if(!origem || !destino){
+ const url=
+ "https://wa.me/"+numero+
+ "?text="+encodeURIComponent(mensagem);
 
-        alert(
-            "Informe o embarque e o destino."
-        );
-
-        return;
-
-    }
-
-
-    const url =
-        "https://www.google.com/maps/dir/?api=1"+
-        "&origin="+encodeURIComponent(origem)+
-        "&destination="+encodeURIComponent(destino)+
-        "&travelmode=driving";
-
-
-    window.open(
-        url,
-        "_blank"
-    );
-
+ window.open(url,"_blank");
 }
-
-
-function enviarWhatsApp(){
-
-    if(!window.corrida){
-
-        alert(
-            "Calcule primeiro o valor da corrida."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       TROQUE O NÚMERO ABAIXO PELO
-       WHATSAPP DO MOTORISTA.
-
-       SOMENTE NÚMEROS.
-    */
-
-    const whatsappMotorista =
-        "5511999999999";
-
-
-    const c =
-        window.corrida;
-
-
-    const mensagem =
-
-        "🚗 *SOLICITAÇÃO DE TRANSPORTE PARTICULAR*"+
-        "\n\n"+
-        "👤 Cliente: "+c.nome+
-        "\n📱 WhatsApp: "+c.telefone+
-        "\n📍 Embarque: "+c.origem+
-        "\n🏁 Destino: "+c.destino+
-        "\n👥 Passageiros: "+c.passageiros+
-        "\n🛣️ Distância: "+c.kmTotal.toFixed(1)+" km"+
-        "\n💰 Valor estimado: "+dinheiro(c.total)+
-        "\n\n"+
-        "Gostaria de confirmar a corrida.";
-
-
-    const url =
-        "https://wa.me/"+
-        whatsappMotorista+
-        "?text="+
-        encodeURIComponent(mensagem);
-
-
-    window.open(
-        url,
-        "_blank"
-    );
-
-}
-
 
 function abrirMotorista(){
 
-    document.getElementById("clienteArea")
-        .style.display =
-        "none";
+ document.getElementById("cliente").style.display="none";
+ document.getElementById("motorista").style.display="block";
 
-    document.getElementById("motoristaArea")
-        .style.display =
-        "block";
-
-    window.scrollTo(
-        0,
-        0
-    );
-
+ window.scrollTo(0,0);
 }
-
 
 function voltarCliente(){
 
-    document.getElementById("motoristaArea")
-        .style.display =
-        "none";
+ document.getElementById("motorista").style.display="none";
+ document.getElementById("cliente").style.display="block";
 
-    document.getElementById("clienteArea")
-        .style.display =
-        "block";
-
-    window.scrollTo(
-        0,
-        0
-    );
-
+ window.scrollTo(0,0);
 }
 
+function nova(){
 
-function novaCorrida(){
+ document.querySelectorAll("input").forEach(c=>{
+  if(c.type==="number") c.value="0";
+  else c.value="";
+ });
 
-    document.querySelectorAll("input")
-        .forEach(function(campo){
+ document.getElementById("passageiros").value="1";
+ document.getElementById("bagagem").value="Não";
+ document.getElementById("temEspera").value="nao";
+ document.getElementById("temEstacionamento").value="nao";
 
-            if(campo.type==="number"){
+ document.getElementById("boxEspera").style.display="none";
+ document.getElementById("boxEstacionamento").style.display="none";
 
-                campo.value="0";
+ document.getElementById("resultadoCliente").style.display="none";
+ document.getElementById("resultadoMotorista").style.display="none";
 
-            }else{
+ corrida=null;
 
-                campo.value="";
-
-            }
-
-        });
-
-
-    document.getElementById("passageiros")
-        .value="1";
-
-
-    document.getElementById("bagagem")
-        .value="Não";
-
-
-    document.getElementById("temEspera")
-        .value="nao";
-
-
-    document.getElementById("temEstacionamento")
-        .value="nao";
-
-
-    document.getElementById("campoEspera")
-        .style.display="none";
-
-
-    document.getElementById("campoEstacionamento")
-        .style.display="none";
-
-
-    document.getElementById("resultadoCliente")
-        .style.display="none";
-
-
-    document.getElementById("resultadoMotorista")
-        .style.display="none";
-
-
-    window.corrida=null;
-
-
-    window.scrollTo(
-        0,
-        0
-    );
-
+ window.scrollTo(0,0);
 }
 
 </script>

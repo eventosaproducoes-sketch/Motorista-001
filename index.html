@@ -1049,4 +1049,65 @@ function fecharAdmin(){
   window.scrollTo(0,0);
 }
 </script>
+ <!-- ETAPA 5 — ACESSO ADMINISTRATIVO -->
+
+<div id="acessoAdmin" style="display:none;position:fixed;inset:0;background:#f3f4f6;z-index:10002;overflow:auto">
+  <div class="header">
+    <div style="font-size:40px">👑</div>
+    <h1>Administração</h1>
+    <p>Acesso exclusivo do proprietário</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>🔐 Login administrativo</h2>
+
+      <label>Usuário</label>
+      <input id="adminUsuario" placeholder="Usuário">
+
+      <label>Senha</label>
+      <input id="adminSenha" type="password" placeholder="Senha">
+
+      <button class="dark" onclick="loginAdmin()">
+        ENTRAR NO PAINEL
+      </button>
+
+      <button class="gray" onclick="voltarInicioAdmin()">
+        VOLTAR
+      </button>
+
+      <div id="msgAdmin" class="info" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirAcessoAdmin(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("cliente").style.display="none";
+  document.getElementById("motorista").style.display="none";
+  document.getElementById("acessoAdmin").style.display="block";
+  window.scrollTo(0,0);
+}
+
+function loginAdmin(){
+  const usuario=document.getElementById("adminUsuario").value.trim();
+  const senha=document.getElementById("adminSenha").value;
+
+  if(usuario==="admin" && senha==="123456"){
+    document.getElementById("acessoAdmin").style.display="none";
+    abrirAdmin();
+  }else{
+    const m=document.getElementById("msgAdmin");
+    m.textContent="Usuário ou senha incorretos.";
+    m.style.display="block";
+  }
+}
+
+function voltarInicioAdmin(){
+  document.getElementById("acessoAdmin").style.display="none";
+  document.getElementById("inicio").style.display="block";
+  window.scrollTo(0,0);
+}
+</script>
 </html>

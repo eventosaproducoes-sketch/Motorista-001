@@ -1166,4 +1166,44 @@ window.addEventListener("load",function(){
   }
 });
 </script>
+ <!-- ETAPA 8 — TAXA DA PLATAFORMA -->
+<script>
+const TAXA_PLATAFORMA=2;
+
+const calcularOriginal=calcular;
+
+calcular=function(){
+  calcularOriginal();
+
+  if(!corrida)return;
+
+  const taxa=TAXA_PLATAFORMA;
+  const totalCliente=corrida.total+taxa;
+
+  corrida.taxaPlataforma=taxa;
+  corrida.totalCliente=totalCliente;
+
+  const resultado=document.getElementById("resultadoCliente");
+
+  if(resultado && !document.getElementById("rTaxaPlataforma")){
+
+    const linha=document.createElement("div");
+    linha.className="line";
+
+    linha.innerHTML=
+      "<span>Taxa da plataforma</span>"+
+      '<strong id="rTaxaPlataforma">'+dinheiro(taxa)+"</strong>";
+
+    const preco=resultado.querySelector(".price");
+
+    resultado.insertBefore(linha,preco);
+  }
+
+  document.getElementById("rTaxaPlataforma").textContent=
+    dinheiro(taxa);
+
+  document.getElementById("rTotal").textContent=
+    dinheiro(totalCliente);
+};
+</script>
 </html>

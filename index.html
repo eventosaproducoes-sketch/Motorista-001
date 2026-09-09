@@ -981,4 +981,72 @@ function mensagemMotorista(txt){
   m.style.display="block";
 }
 </script>
+ <!-- ETAPA 4 — PAINEL ADMINISTRATIVO -->
+
+<div id="admin" style="display:none;position:fixed;inset:0;background:#f3f4f6;z-index:10001;overflow:auto">
+  <div class="header">
+    <div style="font-size:40px">👑</div>
+    <h1>Painel Administrativo</h1>
+    <p>Controle da plataforma</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>🚗 Motoristas cadastrados</h2>
+      <div id="listaMotoristas"></div>
+
+      <button class="gray" onclick="fecharAdmin()">
+        VOLTAR
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirAdmin(){
+  document.getElementById("inicio").style.display="none";
+  document.getElementById("cliente").style.display="none";
+  document.getElementById("motorista").style.display="none";
+  document.getElementById("admin").style.display="block";
+  mostrarMotorista();
+}
+
+function mostrarMotorista(){
+  const m=document.getElementById("listaMotoristas");
+  const conta=JSON.parse(localStorage.getItem("motorista")||"null");
+
+  if(!conta){
+    m.innerHTML="<div class='info'>Nenhum motorista cadastrado.</div>";
+    return;
+  }
+
+  m.innerHTML=
+    "<div class='line'><span>Nome</span><strong>"+conta.nome+"</strong></div>"+
+    "<div class='line'><span>WhatsApp</span><strong>"+conta.whats+"</strong></div>"+
+    "<div class='line'><span>Placa</span><strong>"+conta.placa+"</strong></div>"+
+    "<div class='line'><span>Status</span><strong>"+
+    (conta.aprovado?"APROVADO":"AGUARDANDO")+
+    "</strong></div>"+
+    (!conta.aprovado?
+      "<button class='green' onclick='aprovarMotorista()'>✅ APROVAR MOTORISTA</button>":
+      "<div class='info'>Motorista já está aprovado.</div>");
+}
+
+function aprovarMotorista(){
+  const conta=JSON.parse(localStorage.getItem("motorista")||"null");
+
+  if(!conta)return;
+
+  conta.aprovado=true;
+  localStorage.setItem("motorista",JSON.stringify(conta));
+
+  mostrarMotorista();
+}
+
+function fecharAdmin(){
+  document.getElementById("admin").style.display="none";
+  document.getElementById("inicio").style.display="block";
+  window.scrollTo(0,0);
+}
+</script>
 </html>

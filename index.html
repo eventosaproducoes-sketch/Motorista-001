@@ -1237,4 +1237,26 @@ function mostrarCorridasMotorista(){
 }
 
 </script>
+ <!-- ETAPA 9 — BOTÃO DE CORRIDAS PARA O MOTORISTA -->
+<script>
+window.addEventListener("load",function(){
+
+  const area=document.getElementById("motorista");
+
+  if(!area || document.getElementById("btnVerCorridas")){
+    return;
+  }
+
+  const botao=document.createElement("button");
+
+  botao.id="btnVerCorridas";
+  botao.className="blue";
+  botao.textContent="🚗 VER CORRIDAS DISPONÍVEIS";
+
+  botao.onclick=mostrarCorridasMotorista;
+
+  area.appendChild(botao);
+
+});
+</script>
 </html>

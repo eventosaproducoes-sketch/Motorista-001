@@ -1542,4 +1542,153 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- ETAPA 2 — PERFIL RÁPIDO DO VEÍCULO -->
+<script>
+window.addEventListener("load",function(){
+
+  const painel=document.getElementById("motorista");
+  if(!painel || document.getElementById("veiculoMotorista")) return;
+
+  const card=document.createElement("div");
+  card.id="veiculoMotorista";
+  card.className="card";
+  card.style.marginTop="20px";
+
+  card.innerHTML=`
+    <h2>🚗 Meu veículo</h2>
+    <p style="margin-top:-5px;color:#666">
+      Informe rapidamente as características do veículo.
+    </p>
+
+    <div style="margin-top:15px">
+
+      <strong>👥 Capacidade de passageiros</strong>
+
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <label><input type="radio" name="capacidadeVeiculo" value="4"> 1–4 passageiros</label>
+        <label><input type="radio" name="capacidadeVeiculo" value="5"> 1–5 passageiros</label>
+        <label><input type="radio" name="capacidadeVeiculo" value="6"> 1–6 passageiros</label>
+      </div>
+
+      <strong style="display:block;margin-top:18px">
+        🧳 Porta-malas
+      </strong>
+
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <label><input type="radio" name="portaMalas" value="pequeno"> Pequeno</label>
+        <label><input type="radio" name="portaMalas" value="medio"> Médio</label>
+        <label><input type="radio" name="portaMalas" value="grande"> Grande</label>
+      </div>
+
+      <strong style="display:block;margin-top:18px">
+        🚙 Tipo de veículo
+      </strong>
+
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <label><input type="radio" name="tipoVeiculo" value="carro"> 🚗 Carro</label>
+        <label><input type="radio" name="tipoVeiculo" value="suv"> 🚙 SUV</label>
+        <label><input type="radio" name="tipoVeiculo" value="van"> 🚐 Van</label>
+        <label><input type="radio" name="tipoVeiculo" value="utilitario"> 🛠️ Utilitário</label>
+      </div>
+
+      <strong style="display:block;margin-top:18px">
+        📦 Recursos do veículo
+      </strong>
+
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <label>
+          <input type="checkbox" id="bancoRebativel">
+          Banco traseiro rebatível
+        </label>
+
+        <label>
+          <input type="checkbox" id="espacoEquipamentos">
+          Espaço para equipamentos
+        </label>
+      </div>
+
+    </div>
+
+    <button id="salvarVeiculoMotorista"
+      class="green"
+      style="margin-top:18px">
+      💾 SALVAR VEÍCULO
+    </button>
+
+    <div id="statusVeiculoMotorista"
+      style="margin-top:12px;text-align:center">
+    </div>
+  `;
+
+  painel.appendChild(card);
+
+  const salvo=JSON.parse(
+    localStorage.getItem("veiculoMotorista")||"null"
+  );
+
+  if(salvo){
+
+    const capacidade=card.querySelector(
+      'input[name="capacidadeVeiculo"][value="'+salvo.capacidade+'"]'
+    );
+
+    const porta=card.querySelector(
+      'input[name="portaMalas"][value="'+salvo.portaMalas+'"]'
+    );
+
+    const tipo=card.querySelector(
+      'input[name="tipoVeiculo"][value="'+salvo.tipoVeiculo+'"]'
+    );
+
+    if(capacidade) capacidade.checked=true;
+    if(porta) porta.checked=true;
+    if(tipo) tipo.checked=true;
+
+    document.getElementById("bancoRebativel").checked=
+      !!salvo.bancoRebativel;
+
+    document.getElementById("espacoEquipamentos").checked=
+      !!salvo.espacoEquipamentos;
+  }
+
+  document.getElementById("salvarVeiculoMotorista").onclick=function(){
+
+    const capacidade=card.querySelector(
+      'input[name="capacidadeVeiculo"]:checked'
+    );
+
+    const porta=card.querySelector(
+      'input[name="portaMalas"]:checked'
+    );
+
+    const tipo=card.querySelector(
+      'input[name="tipoVeiculo"]:checked'
+    );
+
+    if(!capacidade || !porta || !tipo){
+      alert("⚠️ Informe a capacidade, o porta-malas e o tipo de veículo.");
+      return;
+    }
+
+    const dados={
+      capacidade:capacidade.value,
+      portaMalas:porta.value,
+      tipoVeiculo:tipo.value,
+      bancoRebativel:document.getElementById("bancoRebativel").checked,
+      espacoEquipamentos:document.getElementById("espacoEquipamentos").checked
+    };
+
+    localStorage.setItem(
+      "veiculoMotorista",
+      JSON.stringify(dados)
+    );
+
+    document.getElementById(
+      "statusVeiculoMotorista"
+    ).innerHTML=
+      "✅ Informações do veículo salvas!";
+  };
+
+});
+ </script>
 </html>

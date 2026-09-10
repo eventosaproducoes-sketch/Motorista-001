@@ -1953,4 +1953,205 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- CORREÇÃO DEFINITIVA — ABRIR CORRIDAS -->
+<script>
+document.addEventListener("click",function(e){
+
+  const clicouNoBotao=
+    e.target.closest("#btnVerCorridas") ||
+    e.target.closest("#alertaNovaCorrida button");
+
+  if(!clicouNoBotao)return;
+
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  let lista=[];
+
+  try{
+    lista=JSON.parse(
+      localStorage.getItem("corridas")||"[]"
+    );
+  }catch(erro){
+    alert("Erro ao carregar as corridas.");
+    return;
+  }
+
+  let area=document.getElementById(
+    "painelCorridasDefinitivo"
+  );
+
+  if(!area){
+
+    area=document.createElement("div");
+
+    area.id="painelCorridasDefinitivo";
+    area.className="card";
+
+    const motorista=
+      document.getElementById("motorista");
+
+    motorista.appendChild(area);
+  }
+
+  area.innerHTML=
+    "<h2>🚗 Corridas disponíveis</h2>";
+
+  const disponiveis=lista.filter(function(c){
+    return c.status==="Aguardando motorista";
+  });
+
+  if(!disponiveis.length){
+
+    area.innerHTML+=
+      "<div class='info'>"+
+      "🟢 Nenhuma corrida aguardando motorista."+
+      "</div>";
+
+    area.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+    return;
+  }
+
+  area.innerHTML+=
+    "<div class='info'>"+
+    "🟢 "+disponiveis.length+
+    " corrida(s) disponível(is)"+
+    "</div>";
+
+  disponiveis.forEach(function(c){
+
+    const card=document.createElement("div");
+
+    card.style.cssText=
+      "border:1px solid #ddd;"+
+      "border-radius:12px;"+
+      "padding:14px;"+
+      "margin-top:12px;";
+
+    card.innerHTML=
+      "<strong>👤 "+c.nome+"</strong>"+
+
+      "<div class='line'>"+
+      "<span>📅 Horário</span>"+
+      "<strong>"+c.data+" "+c.hora+"</strong>"+
+      "</div>"+
+
+      "<div class='line'>"+
+      "<span>📍 Embarque</span>"+
+      "<strong>"+c.origem+"</strong>"+
+      "</div>"+
+
+      "<div class='line'>"+
+      "<span>🏁 Destino</span>"+
+      "<strong>"+c.destino+"</strong>"+
+      "</div>"+
+
+      "<div class='line'>"+
+      "<span>👥 Passageiros</span>"+
+      "<strong>"+c.passageiros+"</strong>"+
+      "</div>"+
+
+      "<div class='line'>"+
+      "<span>💰 Valor</span>"+
+      "<strong>"+dinheiro(c.total)+"</strong>"+
+      "</div>";
+
+    if(c.tipoTransporte &&
+       c.tipoTransporte!=="nenhum"){
+
+      const tipos={
+        bagagem:"🧳 Bagagem",
+        instrumento:"🎵 Instrumento musical",
+        equipamento:"📦 Equipamento profissional",
+        ferramentas:"🛠️ Ferramentas de trabalho"
+      };
+
+      if(tipos[c.tipoTransporte]){
+
+        card.innerHTML+=
+          "<div class='info'>"+
+          "<strong>📋 Necessidade</strong><br>"+
+          tipos[c.tipoTransporte]+
+          "</div>";
+      }
+    }
+
+    if(c.necessidadeEspecial &&
+       c.necessidadeEspecial!=="nenhuma"){
+
+      const necessidades={
+        pcd:"♿ Pessoa com deficiência (PcD)",
+        cadeirante:"♿ Cadeirante",
+        crianca:"👶 Criança até 7 anos"
+      };
+
+      if(necessidades[c.necessidadeEspecial]){
+
+        card.innerHTML+=
+          "<div class='info'>"+
+          necessidades[c.necessidadeEspecial]+
+          "</div>";
+      }
+    }
+
+    const aceitar=document.createElement("button");
+
+    aceitar.className="green";
+
+    aceitar.textContent=
+      "✅ ACEITAR CORRIDA";
+
+    aceitar.onclick=function(){
+
+      const todas=JSON.parse(
+        localStorage.getItem("corridas")||"[]"
+      );
+
+      const encontrada=todas.find(function(x){
+        return x.id===c.id;
+      });
+
+      if(!encontrada){
+
+        alert("Corrida não encontrada.");
+        return;
+      }
+
+      encontrada.status=
+        "Aceita pelo motorista";
+
+      localStorage.setItem(
+        "corridas",
+        JSON.stringify(todas)
+      );
+
+      alert(
+        "✅ Corrida aceita!\n\n"+
+        "Passageiro: "+
+        encontrada.nome
+      );
+
+      area.innerHTML=
+        "<h2>🚗 Corridas disponíveis</h2>"+
+        "<div class='info'>"+
+        "🟢 Corrida aceita com sucesso."+
+        "</div>";
+    };
+
+    card.appendChild(aceitar);
+    area.appendChild(card);
+
+  });
+
+  area.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+},true);
+</script>
 </html>

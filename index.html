@@ -1691,4 +1691,83 @@ window.addEventListener("load",function(){
 
 });
  </script>
+ <!-- ETAPA 3 — NECESSIDADE RÁPIDA DO PASSAGEIRO -->
+<script>
+window.addEventListener("load",function(){
+
+  const cliente=document.getElementById("cliente");
+  if(!cliente || document.getElementById("necessidadePassageiro")) return;
+
+  const cards=cliente.querySelectorAll(".card");
+  const cardRota=cards[cards.length-1];
+
+  const card=document.createElement("div");
+  card.id="necessidadePassageiro";
+  card.className="card";
+
+  card.innerHTML=`
+    <h2>🎯 Necessidade do transporte</h2>
+
+    <label>O que você está levando?</label>
+
+    <select id="tipoTransporteEspecial">
+      <option value="nenhum">Nada além dos passageiros</option>
+      <option value="bagagem">🧳 Bagagem</option>
+      <option value="instrumento">🎵 Instrumento musical</option>
+      <option value="equipamento">📦 Equipamento profissional</option>
+      <option value="ferramentas">🛠️ Ferramentas de trabalho</option>
+    </select>
+
+    <label>Precisa de algum atendimento especial?</label>
+
+    <select id="necessidadeEspecial">
+      <option value="nenhuma">Nenhuma</option>
+      <option value="pcd">♿ Pessoa com deficiência (PcD)</option>
+      <option value="cadeirante">♿ Cadeirante</option>
+      <option value="crianca">👶 Criança até 7 anos</option>
+    </select>
+
+    <div id="infoNecessidadeEspecial"
+      class="info"
+      style="display:none">
+    </div>
+  `;
+
+  cliente.insertBefore(card,cardRota);
+
+  const necessidade=
+    document.getElementById("necessidadeEspecial");
+
+  const info=
+    document.getElementById("infoNecessidadeEspecial");
+
+  necessidade.addEventListener("change",function(){
+
+    if(this.value==="pcd"){
+      info.style.display="block";
+      info.innerHTML=
+        "♿ O sistema procurará um motorista que aceite esse atendimento.";
+    }
+
+    else if(this.value==="cadeirante"){
+      info.style.display="block";
+      info.innerHTML=
+        "♿ Informe essa necessidade para que o sistema procure um veículo compatível.";
+    }
+
+    else if(this.value==="crianca"){
+      info.style.display="block";
+      info.innerHTML=
+        "👶 Crianças até 7 anos ficam isentas da taxa adicional de passageiro, conforme a política da plataforma.";
+    }
+
+    else{
+      info.style.display="none";
+      info.innerHTML="";
+    }
+
+  });
+
+});
+</script>
 </html>

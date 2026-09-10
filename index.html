@@ -1812,4 +1812,98 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- ETAPA 5 — DETALHES RÁPIDOS DA CORRIDA PARA O MOTORISTA -->
+<script>
+window.addEventListener("load",function(){
+
+  function atualizarDetalhesCorridas(){
+
+    const area=document.getElementById("painelCorridasSimples");
+    if(!area)return;
+
+    const cards=area.children;
+
+    for(let i=1;i<cards.length;i++){
+
+      const card=cards[i];
+
+      if(card.dataset.detalhes==="1")continue;
+
+      const texto=card.innerText;
+
+      const lista=JSON.parse(
+        localStorage.getItem("corridas")||"[]"
+      );
+
+      const corrida=lista.find(function(c){
+        return texto.includes(c.nome) &&
+               texto.includes(c.origem) &&
+               texto.includes(c.destino);
+      });
+
+      if(!corrida)continue;
+
+      let detalhes=[];
+
+      if(corrida.tipoTransporte &&
+         corrida.tipoTransporte!=="nenhum"){
+
+        const tipos={
+          bagagem:"🧳 Bagagem",
+          instrumento:"🎵 Instrumento musical",
+          equipamento:"📦 Equipamento profissional",
+          ferramentas:"🛠️ Ferramentas de trabalho"
+        };
+
+        if(tipos[corrida.tipoTransporte]){
+          detalhes.push(tipos[corrida.tipoTransporte]);
+        }
+      }
+
+      if(corrida.necessidadeEspecial &&
+         corrida.necessidadeEspecial!=="nenhuma"){
+
+        const necessidades={
+          pcd:"♿ Pessoa com deficiência (PcD)",
+          cadeirante:"♿ Cadeirante",
+          crianca:"👶 Criança até 7 anos"
+        };
+
+        if(necessidades[corrida.necessidadeEspecial]){
+          detalhes.push(
+            necessidades[corrida.necessidadeEspecial]
+          );
+        }
+      }
+
+      if(detalhes.length){
+
+        const aviso=document.createElement("div");
+
+        aviso.style.cssText=
+          "background:#eef5ff;"+
+          "border-radius:10px;"+
+          "padding:10px;"+
+          "margin-top:10px;"+
+          "font-size:14px;"+
+          "line-height:1.6;";
+
+        aviso.innerHTML=
+          "<strong>📋 Necessidades da corrida</strong><br>"+
+          detalhes.join("<br>");
+
+        card.insertBefore(
+          aviso,
+          card.querySelector("button")
+        );
+      }
+
+      card.dataset.detalhes="1";
+    }
+  }
+
+  setInterval(atualizarDetalhesCorridas,1000);
+
+});
+</script>
 </html>

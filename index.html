@@ -1906,4 +1906,51 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- CORREÇÃO — BOTÃO VER CORRIDA DO ALERTA -->
+<script>
+window.addEventListener("load",function(){
+
+  function ligarBotaoAlerta(){
+
+    const alerta=document.getElementById("alertaNovaCorrida");
+
+    if(!alerta)return;
+
+    const botao=alerta.querySelector("button");
+
+    if(!botao)return;
+
+    botao.onclick=function(){
+
+      const botaoPrincipal=
+        document.getElementById("btnVerCorridas");
+
+      if(botaoPrincipal){
+        botaoPrincipal.click();
+        return;
+      }
+
+      if(typeof verCorridas==="function"){
+        verCorridas();
+        return;
+      }
+
+      if(typeof listarCorridasParaMotorista==="function"){
+        listarCorridasParaMotorista();
+        return;
+      }
+
+      alert(
+        "⚠️ Não foi possível abrir as corridas.\n\n"+
+        "Atualize a página e tente novamente."
+      );
+    };
+  }
+
+  ligarBotaoAlerta();
+
+  setInterval(ligarBotaoAlerta,1000);
+
+});
+</script>
 </html>

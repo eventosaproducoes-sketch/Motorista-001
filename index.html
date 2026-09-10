@@ -1770,4 +1770,46 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- ETAPA 4 — INFORMAÇÕES ESPECIAIS NA CORRIDA -->
+<script>
+window.addEventListener("load",function(){
+
+  if(typeof registrarCorrida!=="function") return;
+
+  const registrarOriginal=registrarCorrida;
+
+  registrarCorrida=function(){
+
+    registrarOriginal();
+
+    const lista=JSON.parse(
+      localStorage.getItem("corridas")||"[]"
+    );
+
+    if(!lista.length) return;
+
+    const ultima=lista[lista.length-1];
+
+    const tipo=document.getElementById(
+      "tipoTransporteEspecial"
+    );
+
+    const necessidade=document.getElementById(
+      "necessidadeEspecial"
+    );
+
+    ultima.tipoTransporte=
+      tipo ? tipo.value : "nenhum";
+
+    ultima.necessidadeEspecial=
+      necessidade ? necessidade.value : "nenhuma";
+
+    localStorage.setItem(
+      "corridas",
+      JSON.stringify(lista)
+    );
+  };
+
+});
+</script>
 </html>

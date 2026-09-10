@@ -1437,4 +1437,109 @@ window.addEventListener("load",function(){
 
 });
 </script>
+ <!-- ETAPA 1 — PREFERÊNCIAS RÁPIDAS DO MOTORISTA -->
+<script>
+window.addEventListener("load",function(){
+
+  const painel=document.getElementById("motorista");
+  if(!painel || document.getElementById("preferenciasMotorista")) return;
+
+  const card=document.createElement("div");
+  card.id="preferenciasMotorista";
+  card.className="card";
+  card.style.marginTop="20px";
+
+  card.innerHTML=`
+    <h2>⚙️ Meu atendimento</h2>
+    <p style="margin-top:-5px;color:#666">
+      Escolha rapidamente o que você aceita atender.
+    </p>
+
+    <div style="display:grid;gap:10px;margin-top:15px">
+
+      <label>
+        <input type="checkbox" value="passageiros">
+        👤 Passageiros
+      </label>
+
+      <label>
+        <input type="checkbox" value="criancas">
+        👶 Crianças até 7 anos
+      </label>
+
+      <label>
+        <input type="checkbox" value="pcd">
+        ♿ Pessoas com deficiência (PcD)
+      </label>
+
+      <label>
+        <input type="checkbox" value="cadeirante">
+        ♿ Cadeirante
+      </label>
+
+      <label>
+        <input type="checkbox" value="musicos">
+        🎵 Músicos e equipamentos
+      </label>
+
+      <label>
+        <input type="checkbox" value="profissionais">
+        🛠️ Profissionais e ferramentas
+      </label>
+
+      <label>
+        <input type="checkbox" value="bagagem">
+        🧳 Bagagem grande
+      </label>
+
+    </div>
+
+    <button id="salvarPreferenciasMotorista"
+      class="green"
+      style="margin-top:18px">
+      💾 SALVAR PREFERÊNCIAS
+    </button>
+
+    <div id="statusPreferenciasMotorista"
+      style="margin-top:12px;text-align:center">
+    </div>
+  `;
+
+  painel.appendChild(card);
+
+  const salvas=JSON.parse(
+    localStorage.getItem("preferenciasMotorista")||"[]"
+  );
+
+  card.querySelectorAll("input[type=checkbox]").forEach(function(c){
+    c.checked=salvas.includes(c.value);
+  });
+
+  document.getElementById("salvarPreferenciasMotorista").onclick=function(){
+
+    const escolhidas=[];
+
+    card.querySelectorAll("input[type=checkbox]:checked")
+      .forEach(function(c){
+        escolhidas.push(c.value);
+      });
+
+    if(!escolhidas.length){
+      alert("Selecione pelo menos uma opção.");
+      return;
+    }
+
+    localStorage.setItem(
+      "preferenciasMotorista",
+      JSON.stringify(escolhidas)
+    );
+
+    document.getElementById(
+      "statusPreferenciasMotorista"
+    ).innerHTML=
+      "✅ Preferências salvas com sucesso!";
+  };
+
+});
+</script>
 </html>

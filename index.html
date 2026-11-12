@@ -2154,4 +2154,108 @@ document.addEventListener("click",function(e){
 
 },true);
 </script>
+ 
+<!-- INTEGRAÇÃO AUTOMÁTICA DE ROTAS -->
+<script>
+const API_TRANSPORTE = "https://motorista-001.onrender.com";
+
+window.addEventListener("load", function () {
+  const kmViagem = document.getElementById("kmViagem");
+
+  if (!kmViagem || document.getElementById("btnRotaAutomatica")) return;
+
+  const area = document.createElement("div");
+  area.style.marginTop = "12px";
+
+  area.innerHTML = `
+    <button id="btnRotaAutomatica" class="blue">
+      🗺️ CALCULAR DISTÂNCIAS AUTOMATICAMENTE
+    </button>
+    <div id="statusRotaAutomatica" class="info">
+      Autorize a localização do motorista para calcular as rotas.
+    </div>
+  `;
+
+  kmViagem.insertAdjacentElement("afterend", area);
+
+  document.getElementById("btnRotaAutomatica").onclick =
+    async function () {
+      const botao = this;
+      const status = document.getElementById("statusRotaAutomatica");
+
+      const embarque = document.getElementById("origem").value.trim();
+      const destino = document.getElementById("destino").value.trim();
+
+      if (!embarque || !destino) {
+        alert("Informe o embarque e o destino.");
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        status.textContent = "Seu navegador não permite obter a localização.";
+        return;
+      }
+
+      botao.disabled = true;
+      botao.textContent = "⏳ CALCULANDO ROTAS...";
+      status.textContent = "Obtendo localização do motorista...";
+
+      navigator.geolocation.getCurrentPosition(
+        async function (posicao) {
+          try {
+            status.textContent = "Consultando as rotas...";
+
+            const resposta = await fetch(API_TRANSPORTE + "/api/rotas", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                origemMotorista: {
+                  latitude: posicao.coords.latitude,
+                  longitude: posicao.coords.longitude
+                },
+                embarque: embarque,
+                destino: destino
+              })
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok || !dados.sucesso) {
+              throw new Error(dados.erro || "Falha ao calcular as rotas.");
+            }
+
+            document.getElementById("kmBusca").value = dados.kmBusca;
+            document.getElementById("kmViagem").value = dados.kmViagem;
+
+            status.textContent =
+              "✅ Distâncias calculadas! Motorista até embarque: " +
+              dados.kmBusca + " km | Viagem: " +
+              dados.kmViagem + " km.";
+
+          } catch (erro) {
+            status.textContent = "❌ " + erro.message;
+          } finally {
+            botao.disabled = false;
+            botao.textContent = "🗺️ CALCULAR DISTÂNCIAS AUTOMATICAMENTE";
+          }
+        },
+        function (erro) {
+          status.textContent =
+            "Não foi possível obter sua localização. Autorize o acesso à localização do navegador.";
+
+          botao.disabled = false;
+          botao.textContent = "🗺️ CALCULAR DISTÂNCIAS AUTOMATICAMENTE";
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 30000
+        }
+      );
+    };
+});
+</script>
+
 </html>

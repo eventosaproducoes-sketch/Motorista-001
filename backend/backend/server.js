@@ -2,12 +2,14 @@
 import express from "express";
 
 const app = express();
+
 app.use(express.json({ limit: "10kb" }));
 
 const PORT = process.env.PORT || 8080;
 const API_KEY = process.env.ORS_API_KEY;
 const ORIGIN = "https://eventosaproducoes-sketch.github.io";
 
+// CORS
 app.use((req, res, next) => {
   if (req.headers.origin === ORIGIN) {
     res.setHeader("Access-Control-Allow-Origin", ORIGIN);
@@ -17,10 +19,50 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") return res.sendStatus(204);
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
   next();
 });
 
+// Consulta a API e trata respostas inválidas
+async function consultarAPI(url, opcoes = {}) {
+  const resposta = await fetch(url, opcoes);
+
+  let dados;
+
+  try {
+    dados = await resposta.json();
+  } catch {
+    dados = {};
+  }
+
+  if (!resposta.ok) {
+    const detalhe =
+      dados.error?.message ||
+      dados.message ||
+      dados.error ||
+      "Erro retornado pelo serviço de mapas.";
+
+    console.error(
+      "ERRO NA API DE MAPAS:",
+      resposta.status,
+      detalhe
+    );
+
+    throw new Error(
+      "API de mapas HTTP " +
+      resposta.status +
+      ": " +
+      detalhe
+    );
+  }
+
+  return dados;
+}
+
+// Converte endereço em coordenadas
 async function geocodificar(endereco) {
   const url = new URL(
     "https://api.openrouteservice.org/geocode/search"
@@ -31,23 +73,25 @@ async function geocodificar(endereco) {
   url.searchParams.set("boundary.country", "BR");
   url.searchParams.set("size", "1");
 
-  const resposta = await fetch(url);
-  const dados = await resposta.json();
+  const dados = await consultarAPI(url);
 
-  if (!resposta.ok || !dados.features?.length) {
-    throw new Error("Endereço não encontrado: " + endereco);
+  if (!dados.features?.length) {
+    throw new Error(
+      "Endereço não encontrado: " + endereco
+    );
   }
 
   return dados.features[0].geometry.coordinates;
 }
 
+// Calcula distância e duração
 async function calcularRota(origem, destino) {
-  const resposta = await fetch(
+  const dados = await consultarAPI(
     "https://api.openrouteservice.org/v2/directions/driving-car",
     {
       method: "POST",
       headers: {
-        "Authorization": API_KEY,
+        Authorization: API_KEY,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -56,13 +100,13 @@ async function calcularRota(origem, destino) {
     }
   );
 
-  const dados = await resposta.json();
+  const resumo = dados.features?.[0]?.properties?.summary;
 
-  if (!resposta.ok || !dados.features?.length) {
-    throw new Error("Não foi possível calcular a rota.");
+  if (!resumo) {
+    throw new Error(
+      "O serviço não retornou os dados da rota."
+    );
   }
-
-  const resumo = dados.features[0].properties.summary;
 
   return {
     km: Number((resumo.distance / 1000).toFixed(2)),
@@ -70,27 +114,39 @@ async function calcularRota(origem, destino) {
   };
 }
 
+// Teste de funcionamento do servidor
 app.get("/", (req, res) => {
   res.json({
     status: "online",
-    servico: "Transporte Particular"
+    servico: "Transporte Particular",
+    rotas: "disponivel"
   });
 });
 
+// Endpoint de cálculo de rotas
 app.post("/api/rotas", async (req, res) => {
   try {
     if (!API_KEY) {
       return res.status(500).json({
-        erro: "Chave de rotas não configurada."
+        sucesso: false,
+        erro: "Chave ORS_API_KEY não configurada no Render."
       });
     }
 
-    const { origemMotorista, embarque, destino } = req.body;
+    const {
+      origemMotorista,
+      embarque,
+      destino
+    } = req.body || {};
 
     if (
       !origemMotorista ||
       !Number.isFinite(origemMotorista.latitude) ||
       !Number.isFinite(origemMotorista.longitude) ||
+      origemMotorista.latitude < -90 ||
+      origemMotorista.latitude > 90 ||
+      origemMotorista.longitude < -180 ||
+      origemMotorista.longitude > 180 ||
       typeof embarque !== "string" ||
       typeof destino !== "string" ||
       !embarque.trim() ||
@@ -99,18 +155,26 @@ app.post("/api/rotas", async (req, res) => {
       destino.length > 300
     ) {
       return res.status(400).json({
+        sucesso: false,
         erro: "Confira a localização e os endereços."
       });
     }
 
-    const coordenadasEmbarque = await geocodificar(embarque);
-    const coordenadasDestino = await geocodificar(destino);
+    console.log("Iniciando cálculo de rotas.");
+
+    // Geocodificação
+    const coordenadasEmbarque =
+      await geocodificar(embarque);
+
+    const coordenadasDestino =
+      await geocodificar(destino);
 
     const coordenadasMotorista = [
       origemMotorista.longitude,
       origemMotorista.latitude
     ];
 
+    // Calcula os dois trechos
     const [busca, viagem] = await Promise.all([
       calcularRota(
         coordenadasMotorista,
@@ -122,7 +186,9 @@ app.post("/api/rotas", async (req, res) => {
       )
     ]);
 
-    res.json({
+    console.log("Rotas calculadas com sucesso.");
+
+    return res.json({
       sucesso: true,
       kmBusca: busca.km,
       kmViagem: viagem.km,
@@ -131,14 +197,21 @@ app.post("/api/rotas", async (req, res) => {
     });
 
   } catch (erro) {
-    console.error("Erro nas rotas:", erro.message);
+    console.error(
+      "ERRO DETALHADO NAS ROTAS:",
+      erro.message
+    );
 
-    res.status(502).json({
-      erro: "Não foi possível calcular as distâncias. Confira os endereços."
+    return res.status(502).json({
+      sucesso: false,
+      erro: erro.message
     });
   }
 });
 
+// Inicialização
 app.listen(PORT, () => {
-  console.log("Servidor iniciado na porta " + PORT);
+  console.log(
+    "Servidor iniciado na porta " + PORT
+  );
 });

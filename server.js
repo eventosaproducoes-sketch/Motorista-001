@@ -1,16 +1,74 @@
 
 import express from "express";
-import { GoogleAuth } from "google-auth-library";
 
 const app = express();
-
 app.use(express.json({ limit: "10kb" }));
 
 const PORT = process.env.PORT || 8080;
+const API_KEY = process.env.ORS_API_KEY;
+const ORIGIN = "https://eventosaproducoes-sketch.github.io";
 
-const auth = new GoogleAuth({
-  scopes: ["https://www.googleapis.com/auth/cloud-platform"]
+app.use((req, res, next) => {
+  if (req.headers.origin === ORIGIN) {
+    res.setHeader("Access-Control-Allow-Origin", ORIGIN);
+  }
+
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
 });
+
+async function geocodificar(endereco) {
+  const url = new URL(
+    "https://api.openrouteservice.org/geocode/search"
+  );
+
+  url.searchParams.set("api_key", API_KEY);
+  url.searchParams.set("text", endereco);
+  url.searchParams.set("boundary.country", "BR");
+  url.searchParams.set("size", "1");
+
+  const resposta = await fetch(url);
+  const dados = await resposta.json();
+
+  if (!resposta.ok || !dados.features?.length) {
+    throw new Error("Endereço não encontrado: " + endereco);
+  }
+
+  return dados.features[0].geometry.coordinates;
+}
+
+async function calcularRota(origem, destino) {
+  const resposta = await fetch(
+    "https://api.openrouteservice.org/v2/directions/driving-car",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        coordinates: [origem, destino]
+      })
+    }
+  );
+
+  const dados = await resposta.json();
+
+  if (!resposta.ok || !dados.features?.length) {
+    throw new Error("Não foi possível calcular a rota.");
+  }
+
+  const resumo = dados.features[0].properties.summary;
+
+  return {
+    km: Number((resumo.distance / 1000).toFixed(2)),
+    segundos: resumo.duration
+  };
+}
 
 app.get("/", (req, res) => {
   res.json({
@@ -21,6 +79,12 @@ app.get("/", (req, res) => {
 
 app.post("/api/rotas", async (req, res) => {
   try {
+    if (!API_KEY) {
+      return res.status(500).json({
+        erro: "Chave de rotas não configurada."
+      });
+    }
+
     const { origemMotorista, embarque, destino } = req.body;
 
     if (
@@ -39,63 +103,22 @@ app.post("/api/rotas", async (req, res) => {
       });
     }
 
-    const client = await auth.getClient();
-    const token = await client.getAccessToken();
+    const coordenadasEmbarque = await geocodificar(embarque);
+    const coordenadasDestino = await geocodificar(destino);
 
-    if (!token.token) {
-      throw new Error("Falha na autenticação Google.");
-    }
-
-    async function calcularRota(origem, destinoRota) {
-      const resposta = await fetch(
-        "https://routes.googleapis.com/directions/v2:computeRoutes",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token.token}`,
-            "X-Goog-FieldMask":
-              "routes.distanceMeters,routes.duration"
-          },
-          body: JSON.stringify({
-            origin: origem,
-            destination: destinoRota,
-            travelMode: "DRIVE",
-            routingPreference: "TRAFFIC_AWARE"
-          })
-        }
-      );
-
-      const dados = await resposta.json();
-
-      if (!resposta.ok || !dados.routes?.length) {
-        throw new Error("Falha ao calcular rota.");
-      }
-
-      return {
-        km: Number(
-          (dados.routes[0].distanceMeters / 1000).toFixed(2)
-        ),
-        duracao: dados.routes[0].duration
-      };
-    }
+    const coordenadasMotorista = [
+      origemMotorista.longitude,
+      origemMotorista.latitude
+    ];
 
     const [busca, viagem] = await Promise.all([
       calcularRota(
-        {
-          location: {
-            latLng: {
-              latitude: origemMotorista.latitude,
-              longitude: origemMotorista.longitude
-            }
-          }
-        },
-        { address: embarque.trim() }
+        coordenadasMotorista,
+        coordenadasEmbarque
       ),
-
       calcularRota(
-        { address: embarque.trim() },
-        { address: destino.trim() }
+        coordenadasEmbarque,
+        coordenadasDestino
       )
     ]);
 
@@ -103,15 +126,15 @@ app.post("/api/rotas", async (req, res) => {
       sucesso: true,
       kmBusca: busca.km,
       kmViagem: viagem.km,
-      tempoBusca: busca.duracao,
-      tempoViagem: viagem.duracao
+      tempoBusca: busca.segundos,
+      tempoViagem: viagem.segundos
     });
 
   } catch (erro) {
     console.error("Erro nas rotas:", erro.message);
 
     res.status(502).json({
-      erro: "Não foi possível calcular as rotas."
+      erro: "Não foi possível calcular as distâncias. Confira os endereços."
     });
   }
 });

@@ -2258,4 +2258,275 @@ window.addEventListener("load", function () {
 });
 </script>
 
+<!-- PAINEL INDIVIDUAL DE CUSTOS E RENTABILIDADE -->
+<style>
+#painelCustosMotorista {
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
+  margin:18px 0;
+  box-shadow:0 4px 15px #00000012;
+  color:#172033;
+}
+#painelCustosMotorista h2 {font-size:21px}
+#painelCustosMotorista h3 {font-size:16px;margin-top:20px}
+#painelCustosMotorista label {
+  display:block;font-weight:600;margin-top:12px;
+}
+#painelCustosMotorista input {
+  width:100%;box-sizing:border-box;padding:13px;
+  border:1px solid #ccd3df;border-radius:9px;
+  margin-top:5px;font-size:16px;
+}
+#painelCustosMotorista button {
+  width:100%;padding:14px;border:0;border-radius:10px;
+  color:white;font-weight:bold;font-size:15px;
+  margin-top:14px;cursor:pointer;
+}
+#painelCustosMotorista .salvar {background:#16a34a}
+#painelCustosMotorista .calcular {background:#2563eb}
+#painelCustosMotorista .resultado {
+  background:#eff6ff;padding:14px;border-radius:12px;
+  margin-top:14px;
+}
+#painelCustosMotorista .linha {
+  display:flex;justify-content:space-between;
+  gap:10px;padding:9px 0;border-bottom:1px solid #ddd;
+}
+#painelCustosMotorista .lucro {
+  color:#15803d;font-size:23px;font-weight:bold;
+}
+</style>
+
+<script>
+(function(){
+
+const CHAVE="configuracoes_motorista_celular_v1";
+
+const padrao={
+ valorKm:3,
+ minimo:35,
+ gasolina:6.95,
+ consumo:10,
+ esperaMin:2,
+ estacionamentoHora:15,
+ passageiroExtra:3.50,
+ manutencaoKm:0.20,
+ pneusKm:0.10,
+ depreciacaoKm:0.15,
+ despesasFixasMes:0,
+ kmMes:3000
+};
+
+function carregar(){
+ try{
+  return {...padrao,...JSON.parse(localStorage.getItem(CHAVE)||"{}")};
+ }catch(e){
+  return {...padrao};
+ }
+}
+
+let config=carregar();
+
+function dinheiro(v){
+ return Number(v).toLocaleString("pt-BR",{
+  style:"currency",currency:"BRL"
+ });
+}
+
+function aplicarValores(){
+ if(typeof CONFIG!=="undefined"){
+  CONFIG.valorKm=config.valorKm;
+  CONFIG.minimo=config.minimo;
+  CONFIG.gasolina=config.gasolina;
+  CONFIG.consumo=config.consumo;
+  CONFIG.esperaMin=config.esperaMin;
+  CONFIG.estacionamentoHora=config.estacionamentoHora;
+ }
+}
+
+function iniciar(){
+
+ const motorista=document.getElementById("motorista");
+ if(!motorista)return;
+
+ if(document.getElementById("painelCustosMotorista"))return;
+
+ const painel=document.createElement("section");
+ painel.id="painelCustosMotorista";
+
+ painel.innerHTML=`
+ <h2>⚙️ Meus custos e ganhos</h2>
+ <p>Configure seus próprios preços e despesas.
+ Seus dados ficam salvos neste celular.</p>
+
+ <h3>💰 Preços cobrados</h3>
+
+ <label>Valor por quilômetro (R$)</label>
+ <input id="mcKm" type="number" min="0" step="0.01">
+
+ <label>Valor mínimo da corrida (R$)</label>
+ <input id="mcMinimo" type="number" min="0" step="0.01">
+
+ <label>Minuto de espera (R$)</label>
+ <input id="mcEspera" type="number" min="0" step="0.01">
+
+ <label>Hora de estacionamento (R$)</label>
+ <input id="mcEstacionamento" type="number" min="0" step="0.01">
+
+ <label>Valor por passageiro adicional (R$)</label>
+ <input id="mcExtra" type="number" min="0" step="0.01">
+
+ <h3>🚗 Custos do veículo</h3>
+
+ <label>Preço do combustível por litro (R$)</label>
+ <input id="mcGasolina" type="number" min="0" step="0.01">
+
+ <label>Consumo do veículo (km por litro)</label>
+ <input id="mcConsumo" type="number" min="0.1" step="0.1">
+
+ <label>Manutenção por quilômetro (R$)</label>
+ <input id="mcManutencao" type="number" min="0" step="0.01">
+
+ <label>Reserva para pneus por quilômetro (R$)</label>
+ <input id="mcPneus" type="number" min="0" step="0.01">
+
+ <label>Depreciação por quilômetro (R$)</label>
+ <input id="mcDepreciacao" type="number" min="0" step="0.01">
+
+ <h3>📅 Despesas mensais</h3>
+
+ <label>Seguro, aluguel, IPVA e outras despesas mensais (R$)</label>
+ <input id="mcFixas" type="number" min="0" step="0.01">
+
+ <label>Quilometragem estimada por mês</label>
+ <input id="mcKmMes" type="number" min="1" step="1">
+
+ <button class="salvar" id="mcSalvar">
+ 💾 SALVAR MINHAS CONFIGURAÇÕES
+ </button>
+
+ <h3>📊 Simular rentabilidade de uma corrida</h3>
+
+ <label>Distância total da corrida (km)</label>
+ <input id="mcDistancia" type="number" min="0" step="0.1">
+
+ <label>Minutos de espera</label>
+ <input id="mcMinutos" type="number" min="0" step="1" value="0">
+
+ <label>Horas de estacionamento</label>
+ <input id="mcHoras" type="number" min="0" step="0.1" value="0">
+
+ <label>Passageiros adicionais</label>
+ <input id="mcPassageiros" type="number" min="0" step="1" value="0">
+
+ <button class="calcular" id="mcCalcular">
+ 📈 CALCULAR MEU RESULTADO
+ </button>
+
+ <div class="resultado" id="mcResultado">
+ Preencha a distância para simular seus ganhos.
+ </div>
+ `;
+
+ motorista.appendChild(painel);
+
+ const campos={
+  mcKm:"valorKm",
+  mcMinimo:"minimo",
+  mcEspera:"esperaMin",
+  mcEstacionamento:"estacionamentoHora",
+  mcExtra:"passageiroExtra",
+  mcGasolina:"gasolina",
+  mcConsumo:"consumo",
+  mcManutencao:"manutencaoKm",
+  mcPneus:"pneusKm",
+  mcDepreciacao:"depreciacaoKm",
+  mcFixas:"despesasFixasMes",
+  mcKmMes:"kmMes"
+ };
+
+ Object.keys(campos).forEach(id=>{
+  document.getElementById(id).value=config[campos[id]];
+ });
+
+ document.getElementById("mcSalvar").onclick=function(){
+
+  Object.keys(campos).forEach(id=>{
+   const valor=Number(document.getElementById(id).value);
+   if(!Number.isFinite(valor)||valor<0){
+    alert("Confira os valores informados.");
+    return;
+   }
+   config[campos[id]]=valor;
+  });
+
+  if(config.consumo<=0||config.kmMes<=0){
+   alert("Consumo e quilometragem mensal devem ser maiores que zero.");
+   return;
+  }
+
+  localStorage.setItem(CHAVE,JSON.stringify(config));
+  aplicarValores();
+
+  alert("✅ Configurações salvas neste celular!");
+ };
+
+ document.getElementById("mcCalcular").onclick=function(){
+
+  const km=Number(document.getElementById("mcDistancia").value);
+  const espera=Number(document.getElementById("mcMinutos").value)||0;
+  const horas=Number(document.getElementById("mcHoras").value)||0;
+  const extras=Number(document.getElementById("mcPassageiros").value)||0;
+
+  if(!Number.isFinite(km)||km<=0){
+   alert("Informe a distância da corrida.");
+   return;
+  }
+
+  const valorDistancia=km*config.valorKm;
+  const valorBase=Math.max(valorDistancia,config.minimo);
+  const valorEspera=espera*config.esperaMin;
+  const valorEstacionamento=horas*config.estacionamentoHora;
+  const valorExtras=extras*config.passageiroExtra;
+
+  const receita=valorBase+valorEspera+
+    valorEstacionamento+valorExtras;
+
+  const combustivel=(km/config.consumo)*config.gasolina;
+  const manutencao=km*config.manutencaoKm;
+  const pneus=km*config.pneusKm;
+  const depreciacao=km*config.depreciacaoKm;
+  const fixas=(config.despesasFixasMes/config.kmMes)*km;
+
+  const custos=combustivel+manutencao+
+    pneus+depreciacao+fixas;
+
+  const lucro=receita-custos;
+  const margem=receita>0?(lucro/receita)*100:0;
+
+  document.getElementById("mcResultado").innerHTML=`
+   <h3>Resultado estimado</h3>
+   <div class="linha"><span>Valor da corrida</span><b>${dinheiro(receita)}</b></div>
+   <div class="linha"><span>Combustível</span><b>${dinheiro(combustivel)}</b></div>
+   <div class="linha"><span>Manutenção</span><b>${dinheiro(manutencao)}</b></div>
+   <div class="linha"><span>Pneus</span><b>${dinheiro(pneus)}</b></div>
+   <div class="linha"><span>Depreciação</span><b>${dinheiro(depreciacao)}</b></div>
+   <div class="linha"><span>Despesas fixas rateadas</span><b>${dinheiro(fixas)}</b></div>
+   <div class="linha"><span>Total de custos</span><b>${dinheiro(custos)}</b></div>
+   <p>Resultado após custos estimados:</p>
+   <div class="lucro">${dinheiro(lucro)}</div>
+   <p>Margem estimada: ${margem.toFixed(1)}%</p>
+   <small>Simulação. Não inclui impostos ou despesas não cadastradas.</small>
+  `;
+ };
+
+ aplicarValores();
+}
+
+window.addEventListener("load",iniciar);
+
+})();
+</script>
+
 </html>

@@ -82,22 +82,49 @@ async function geocodificar(endereco) {
   }
 
   return dados.features[0].geometry.coordinates;
-}
 
-// Calcula distância e duração
 async function calcularRota(origem, destino) {
   const dados = await consultarAPI(
-    "https://api.openrouteservice.org/v2/directions/driving-car",
+    "https://api.openrouteservice.org/v2/directions/driving-car/json",
     {
       method: "POST",
       headers: {
         Authorization: API_KEY,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify({
         coordinates: [origem, destino]
       })
     }
+  );
+
+  // Aceita JSON e GeoJSON
+  const resumo =
+    dados.routes?.[0]?.summary ||
+    dados.features?.[0]?.properties?.summary;
+
+  if (
+    !resumo ||
+    !Number.isFinite(Number(resumo.distance)) ||
+    !Number.isFinite(Number(resumo.duration))
+  ) {
+    console.error(
+      "RESPOSTA INESPERADA DA ROTA:",
+      JSON.stringify(dados).slice(0, 1000)
+    );
+
+    throw new Error(
+      "A API não retornou distância e duração válidas."
+    );
+  }
+
+  return {
+    km: Number((resumo.distance / 1000).toFixed(2)),
+    segundos: Number(resumo.duration)
+  };
+}
+
   );
 
   const resumo = dados.features?.[0]?.properties?.summary;
